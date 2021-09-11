@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="pandoc" />
+
+        <meta name="author" content="Carlos A. Ar." />
+    
+    
+    <title>GitLab y GitKraken</title>
+
+        <script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
+        <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="site_libs/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="site_libs/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+        <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+        <script src="site_libs/navigation-1.1/tabsets.js"></script>
+        <link href="site_libs/magnific-popup-1.1.0/magnific-popup.css" rel="stylesheet" />
+        <script src="site_libs/magnific-popup-1.1.0/jquery.magnific-popup.min.js"></script>
+        <link href="site_libs/downcute-0.1/downcute.css" rel="stylesheet" />
+        <link href="site_libs/downcute-0.1/downcute_fonts_embed.css" rel="stylesheet" />
+        <script src="site_libs/downcute-0.1/downcute.js"></script>
+        <script src="site_libs/prism-1.22/prism.js"></script>
+    
+    
+    
+    
+    <!-- tabsets -->
+    <script>
+      $(document).ready(function () {
+	  window.buildTabsets("toc");
+      });
+      $(document).ready(function () {
+	  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+	      $(this).parent().toggleClass('nav-tabs-open')
+	  });
+      });
+    </script>
+
+    <!-- code folding -->
+    
+    <!-- code download -->
+    
+    <!-- tabsets dropdown -->
+
+    <style type="text/css">
+      .tabset-dropdown > .nav-tabs {
+	  display: inline-table;
+	  max-height: 500px;
+	  min-height: 44px;
+	  overflow-y: auto;
+	  background: white;
+	  border: 1px solid #ddd;
+	  border-radius: 4px;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li.active:before {
+	  content: "";
+	  font-family: 'Glyphicons Halflings';
+	  display: inline-block;
+	  padding: 10px;
+	  border-right: 1px solid #ddd;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+	  content: "&#xe258;";
+	  border: none;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+	  content: "";
+	  font-family: 'Glyphicons Halflings';
+	  display: inline-block;
+	  padding: 10px;
+	  border-right: 1px solid #ddd;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li.active {
+	  display: block;
+      }
+
+      .tabset-dropdown > .nav-tabs > li.active a {
+  	  padding: 0 15px !important;
+      }
+
+      .tabset-dropdown > .nav-tabs > li > a,
+      .tabset-dropdown > .nav-tabs > li > a:focus,
+      .tabset-dropdown > .nav-tabs > li > a:hover {
+	  border: none;
+	  display: inline-block;
+	  border-radius: 4px;
+	  background-color: transparent;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+	  display: block;
+	  float: none;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li {
+	  display: none;
+	  margin-left: 0 !important;
+      }
+    </style>
+    
+</head>
+
+<body class="preload">
+
+   	
+               <!-- downcute start -->   
+   <div id="docute" class="Root">
+     <div class="Page layout-narrow">
+      <div class="Wrap">
+        <div class="Sidebar">
+          <div class="SidebarItems" id="toc">
+            <ul>
+            <li><a href="#gitlab">GitLab</a>
+            <ul>
+            <li><a href="#qué-es">¿Qué es?</a></li>
+            <li><a href="#cómo-se-usa">¿Cómo se usa?</a></li>
+            </ul></li>
+            <li><a href="#gitkraken">GitKraken</a>
+            <ul>
+            <li><a href="#qué-es-1">¿Qué es?</a></li>
+            <li><a href="#cómo-se-usa-1">¿Cómo se usa?</a></li>
+            </ul></li>
+            </ul>
+          </div>
+          <div data-position="sidebar:post-end" class="InjectedComponents"><div class="dark-theme-toggler"><div class="toggle"><div class="toggle-track"><div class="toggle-track-check"><img  src="data:image/png;base64,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" role="presentation" style="pointer-events: none;" width="16" height="16"></div> <div class="toggle-track-x"><img src="data:image/png;base64,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" role="presentation" style="pointer-events: none;" width="16" height="16"></div></div> <div class="toggle-thumb"></div></div> <input type="checkbox" aria-label="Switch between Dark and Default theme" class="toggler-screen-reader-only"></div></div>
+        </div>
+        <div class="Main">
+          <div class="Content" id="content"> 
+   
+   
+      
+      <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">Material de Consulta</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li>
+        <a href="index.html"></a>
+      </li>
+      <li>
+        <a href="como_funciona.html">Uso del sitio</a>
+      </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Documentación
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="R-Markdown.html">R Markdown</a>
+          </li>
+          <li>
+            <a href="Xaringan-y-Flipbookr.html">Xaringan y Flipbookr</a>
+          </li>
+          <li>
+            <a href="https://carlos-arguello.shinyapps.io/Tutorial_Learnr/">Tutorial Learnr</a>
+          </li>
+          <li>
+            <a href="https://carlos-arguello.shinyapps.io/Introduction_to_R/">Introducción a R</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Git y más
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="Tutorial-de-Git-y-GitHub.html">Git y GitHub</a>
+          </li>
+          <li>
+            <a href="git_lab_kraken.html">GitLab y GitKraken</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Shiny
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="Intro-Shiny.html">Shiny App</a>
+          </li>
+          <li>
+            <a href="Shiny-Dashboards.html">Shiy Dashboard</a>
+          </li>
+          <li>
+            <a href="Flexdashboards.html">Flexdashboard</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Ejemplos
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="Ejemplo-R-Markdown.html">Rmarkdown</a>
+          </li>
+          <li>
+            <a href="primer_flipbookr.html">Flipbookr</a>
+          </li>
+          <li>
+            <a href="primer_flexdashboard.html">Flexdashboard</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Material académico
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="https://ciencia-de-datos.netlify.app/">Ciencia de Datos</a>
+          </li>
+          <li>
+            <a href="https://teoria-del-riesgo.netlify.app/">Teoría del riesgo</a>
+          </li>
+        </ul>
+      </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container -->
+      </div><!--/.navbar -->
+        
+      <h1 class="title">GitLab y GitKraken</h1>
+      
+      <p class="authors">
+           <span class="glyphicon glyphicon-user"></span> Carlos A. Ar.
+      </p>
+         <p class="date"><span class="glyphicon glyphicon-calendar"></span> Última edición 06 de septiembre del 2021</p>
+           
+
+   
+      
+   
+<!-- Don't indent these lines or it will mess pre blocks indentation --> 
+<div class="page-content has-page-title">
+<div id="gitlab" class="section level1">
+<h1>GitLab</h1>
+<div id="qué-es" class="section level2">
+<h2>¿Qué es?</h2>
+<p>Es una plataforma de internet que tiene la finalidad de trabajar junto con <a href="https://tutorialesmg.netlify.app/tutorial-de-git-y-github#%C2%BFQu%C3%A9_es_Git_y_para_qu%C3%A9_aprenderlo">Git</a> para tener el control de archivos (preferentemente de código) con el objetivo de modificarlos y regresar a alguna versión previa de dicho código.</p>
+<p>La ventaja de esta plataforma sobre Drive, por ejemplo, es que además de almacenar archivos de forma remota, tiene el “historial de cambio” de los mismos.</p>
+<p>Otra ventaja es que pueden varias personas tener acceso a los archivos y modificar el código. Lo anterior permite que muchas personas puedan, de forma remota y asincrónica, trabajar en un código.</p>
+<p>La forma en que se trabaja lo anterior se entiende mejor con lo siguiente:</p>
+<ol style="list-style-type: decimal">
+<li>Creas un proyecto en GitLab.</li>
+<li>Invitas a personas a colaborar o trabajar en el proyecto previamente creado.</li>
+<li>Subes archivos de código al proyecto. (De tu computadora local <em>(que no necesita de internet)</em> a la red/internet).</li>
+<li>Las personas descargan el proyecto en su computadora. (De la red, bajan la carpeta de los archivos <em>(el proyecto)</em> en su máquina local).</li>
+<li>Los miembros del equipo de trabajo hacen cambios en la carpeta (crear archivos, modificar archivos, borrar archivos) desde su computadora.</li>
+<li>Los miembros suben los cambios al proyecto en la red (actualizan el proyecto que se encuentra en GitLab).</li>
+<li>Los miembros del equipo actualizan su carpeta local (la que no necesita de internet), “bajando” las actualizaciones del proyecto en GitLab.</li>
+</ol>
+<p>Los pasos 5, 6 y 7 son los que más se repetirán dado que en un proyecto se tiene que trabajar paulatinamiente y que todos los menbros estén “lo más actualizados posibles” en términos de los cambios en un mismo archivo.</p>
+<p>Si lo has notado, es como GoogleDrive porque aquí, varias personas pueden subir y bajar archivos. No es igual porque tiene el control de Git, es decir, no solo se suben archivos, sino que se actualizan los archivos que ya están en GitLab y viceversa. Además no se actualizan inmediatamente. Para que haya control y no se actualice en desorden, hay que solicitar permisos para ver si se añade o no una actualización.</p>
+<p>La lista anterior sobre el funcionamiento y utilidad general en GitLab, se puede ver en comandos. Es decir que los pasos mencionados en la lista, se logran con los siguientes comandos en la <a href="https://tutorialesmg.netlify.app/tutorial-de-git-y-github#Conceptos_b%C3%A1sicos">terminal de GitBash</a>:</p>
+<ol style="list-style-type: decimal">
+<li><p>(Visto más adelante)</p></li>
+<li><p>(Visto más adelante)</p></li>
+<li><p>(Vsito más adelante)</p></li>
+<li><p><code>git clone link-del-proyecto</code></p></li>
+<li><p>Para que esos cambios sean considerados en el control de Git, se usan los comandos</p>
+<ol style="list-style-type: lower-roman">
+<li><p><code>git add .</code> : permite decir a Git “añade los cambios de todos estos archivos”</p></li>
+<li><p><code>git commit -m"Esta leyecnda dice los cambios que hice" -m"Y esta otra solo es para darle detalle de esos cambios de ser necesario"</code> : es como decir a Git “Confirmo que quiero que este cambio lo consideres como parte de tu historial”.</p></li>
+</ol></li>
+<li><p><code>git push origin master</code> sirve para “empujar” los archivos actualizados en el proyecto que se encuentra en internet (en GitLab).</p></li>
+<li><p><code>git pull</code> sirve para “jalar” los archivos que se encuentran en el proyecto de internet (en GitLab).</p></li>
+</ol>
+<p>El párrafo concerniente a la “fusión” de las diferentes versiones de un mismo archivo, implica conocimiento de las ramas y el merge. Este tema puedes consultarlo <a href="https://tutorialesmg.netlify.app/tutorial-de-git-y-github#Trabajo_Colaborativo">en este link</a>, no es exclusivo de GitLab.</p>
+</div>
+<div id="cómo-se-usa" class="section level2">
+<h2>¿Cómo se usa?</h2>
+<ol style="list-style-type: decimal">
+<li><p><a href="https://gitlab.com/users/sign_in?__cf_chl_jschl_tk__=597a77c313c397163136f33290763db3c9a6416c-1623445163-0-Aas0XwUWR2E-vcoW7sqobio1ppaiBj_YuLcTCtvKd0l-JPUrFxHgF4TJQfyeMYl3miC2rWcC7p03__FNwdmqxkoQI8s4EjvR6ZgJL_IKo56LqSiDs0O0g2VoI4QbH5Wx9WmqSc4GaiKMvKxgEW0pwkjUFI6k_tciWmDVWO82iozNl0UiNvAFsU2qoBPkJEPl0t70mvnptuByZPVzVKBzL_J4cPSXV0xCJWMBLj0izG890Aam67Lio_3ZLg1l_yiWncZV7oazkk-9v4yGJpc13y9CJOE8IaBvjMd0k43z8uz203uSXNm0pJJNKnUlrxHXW-kFLucdCmmfyRWvR-67ax9JrrcE44cD18d80Wl3gK8qoy5X3lFjm05SL3HcXeTqTpwN41DzOO7QgqDxQWl85sbX4NBdz10iieZC4DJtDJLn_sSgQ08lKtTtaTSjUs0zdT9B9iSdlakFJcD-43jbX5NuSKhBOzN-8cVrKtCa9hz7">Crea una cuenta</a> en GitLab.</p></li>
+<li><p>Crear un proyecto.</p>
+<p><img src="gl_gk_2.png" width="438" /></p>
+<p><img src="gl_gk_3.png" width="465" /></p></li>
+<li><p>Existe la posibilidad de invitar a colaborar en tus proyectos o otros usuarios de GitLab para un trabajo asincrónico y a distancia (que es lo que la mayoría queremos hacer en tiempos de pandemia 😅).</p></li>
+</ol>
+<p><img src="gl_gk_5.png" /></p>
+<p>La forma de cambiar el nombre de esta rama es en la terminal de gitBash con el comando <code>git branch -M nombre_de_la_rama</code> donde “nombre_de_la_rama” puede ser main ó master. En el caso de GitLab, usar master.</p>
+</div>
+</div>
+<div id="gitkraken" class="section level1">
+<h1>GitKraken</h1>
+<div id="qué-es-1" class="section level2">
+<h2>¿Qué es?</h2>
+<p>GitKraken es una herramienta que permite gestionar algún repositorio de git, ya sea de GitHub, Git Lab o Git de tu PC. Gestionar, entre otras cosas, se refiere a resolver conflictos del merge y las funciones usuales de git (crear ramas secundarias, add, commit, …). Un plus con respecto a GitHub y GitLab es la linea del tiempo como un gráfico que permite entender las modificaciones que se han hecho sobre un mismo código (controlado con Git).</p>
+<p>GitLab, GitKraken y GitHub son tres programas diferentes que básicamente sirven para lo mismo: controlar archivos y sus versiones a lo largo del tiempo <strong>en internet.</strong> Cada uno con una interfaz de usuario distinta, pero en escencia sirven para lo mismo.</p>
+</div>
+<div id="cómo-se-usa-1" class="section level2">
+<h2>¿Cómo se usa?</h2>
+<ol style="list-style-type: decimal">
+<li><p>Instalar el programa. En la siguiente liga <a href="https://www.gitkraken.com/" class="uri">https://www.gitkraken.com/</a>, presionar el botón amarillo.</p>
+<p><img src="gl_gk_6.png" width="620" /></p></li>
+<li><p>Una vez que se descargue, hay que apretar en el botón del archivo que se ve descargado. Aparecerá una ventana que te pide crear una cuenta o iniciar con alguna cuenta de GitHub, GitLab o Google. En mi caso puse GitHub.</p></li>
+<li><p>Aparecerá la siguiente pantalla. Para poder tener control desde GitKraken de algún repositorio, solo damos click en <code>Clone a Repo</code></p>
+<p><img src="gl_gk_7.png" width="606" /></p></li>
+<li><p>La ventana que aparecerá será la siguiente y se buscará la <a href="https://tutorialesmg.netlify.app/tutorial-de-git-y-github#Inicializar_un_repositorio">carpeta ya inicializada con Git</a> en browser, o se podrán pegar los enlaces del repositorio/proyecto de GitHub/GitLab.</p>
+<p><img src="gl_gk_8.png" width="598" /></p></li>
+</ol>
+<p>Yo lo hice con <a href="https://github.com/yanelyluna/Material-Didactico-SS">un repositorio de GitHub</a> que puedes consultar. En GitKraken se pueden hacer los comandos principales de Git pero de forma mucho más amigable, con botones o no con la terminal.</p>
+<p>Muestro el resultado de la linea de tiempo donde se puede notar todos los commits hechos, las ramas secundarias creadas, entre otras cosas.</p>
+<p>Esta herramienta en particular tiene la capacidad de ver claramente el avance de los archivos en el tiempo, si hay más ramas, si hay problemas con el merge, entre otras cosas.</p>
+<p><img src="gl_gk_9.png" width="633" /></p>
+</div>
+</div>
+</div>
+
+   
+   
+              </div>
+  </div>
+  </div>
+  </div>
+   
+      
+
+  <script>
+    $(document).ready(function () {
+
+		// add bootstrap table styles to pandoc tables
+	$('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+		
+ 	 	$('#content img').addClass("image-thumb");
+		
+		$('#content img:not(.no-lightbox)').addClass("image-lb");
+	$('#content').magnificPopup({
+	    type:'image',
+	    closeOnContentClick: false,
+	    closeBtnInside: false,
+	    delegate: '.image-lb',
+	    gallery: {enabled: false },
+	    image: {
+	        verticalFit: true,
+		titleSrc: 'alt'
+	    }
+ 	});
+ 	    });
+  </script>
+
+
+
+    <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+	var script = document.createElement("script");
+	script.type = "text/javascript";
+	script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+	document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+  
+</body>
+</html>

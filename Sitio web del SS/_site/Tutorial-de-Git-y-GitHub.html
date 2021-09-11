@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="pandoc" />
+
+        <meta name="author" content="Yanely &amp; Carlos" />
+    
+    
+    <title>Tutorial de Git y GitHub</title>
+
+        <script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
+        <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="site_libs/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="site_libs/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+        <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+        <script src="site_libs/navigation-1.1/tabsets.js"></script>
+        <link href="site_libs/magnific-popup-1.1.0/magnific-popup.css" rel="stylesheet" />
+        <script src="site_libs/magnific-popup-1.1.0/jquery.magnific-popup.min.js"></script>
+        <link href="site_libs/downcute-0.1/downcute.css" rel="stylesheet" />
+        <link href="site_libs/downcute-0.1/downcute_fonts_embed.css" rel="stylesheet" />
+        <script src="site_libs/downcute-0.1/downcute.js"></script>
+        <script src="site_libs/prism-1.22/prism.js"></script>
+    
+    
+    
+    
+    <!-- tabsets -->
+    <script>
+      $(document).ready(function () {
+	  window.buildTabsets("toc");
+      });
+      $(document).ready(function () {
+	  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+	      $(this).parent().toggleClass('nav-tabs-open')
+	  });
+      });
+    </script>
+
+    <!-- code folding -->
+    
+    <!-- code download -->
+    
+    <!-- tabsets dropdown -->
+
+    <style type="text/css">
+      .tabset-dropdown > .nav-tabs {
+	  display: inline-table;
+	  max-height: 500px;
+	  min-height: 44px;
+	  overflow-y: auto;
+	  background: white;
+	  border: 1px solid #ddd;
+	  border-radius: 4px;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li.active:before {
+	  content: "";
+	  font-family: 'Glyphicons Halflings';
+	  display: inline-block;
+	  padding: 10px;
+	  border-right: 1px solid #ddd;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+	  content: "&#xe258;";
+	  border: none;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+	  content: "";
+	  font-family: 'Glyphicons Halflings';
+	  display: inline-block;
+	  padding: 10px;
+	  border-right: 1px solid #ddd;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li.active {
+	  display: block;
+      }
+
+      .tabset-dropdown > .nav-tabs > li.active a {
+  	  padding: 0 15px !important;
+      }
+
+      .tabset-dropdown > .nav-tabs > li > a,
+      .tabset-dropdown > .nav-tabs > li > a:focus,
+      .tabset-dropdown > .nav-tabs > li > a:hover {
+	  border: none;
+	  display: inline-block;
+	  border-radius: 4px;
+	  background-color: transparent;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+	  display: block;
+	  float: none;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li {
+	  display: none;
+	  margin-left: 0 !important;
+      }
+    </style>
+    
+</head>
+
+<body class="preload">
+
+   	
+               <!-- downcute start -->   
+   <div id="docute" class="Root">
+     <div class="Page layout-narrow">
+      <div class="Wrap">
+        <div class="Sidebar">
+          <div class="SidebarItems" id="toc">
+            <ul>
+            <li><a href="#qué-es-git-y-para-qué-aprenderlo">¿Qué es Git y para qué aprenderlo?</a>
+            <ul>
+            <li><a href="#instalar-git-en-windows">Instalar Git en Windows</a></li>
+            <li><a href="#instalar-git-en-mac-eduardo">Instalar Git en Mac <em>Eduardo</em></a></li>
+            <li><a href="#conceptos-básicos">Conceptos básicos</a></li>
+            <li><a href="#IR">Inicializar un repositorio</a></li>
+            <li><a href="#cp">Comandos principales</a></li>
+            </ul></li>
+            <li><a href="#qué-es-github-y-para-qué-sirve">¿Qué es GitHub y para qué sirve?</a>
+            <ul>
+            <li><a href="#diferencias-entre-git-y-github">Diferencias entre Git y GitHub</a></li>
+            <li><a href="#crear-una-cuenta">Crear una cuenta</a></li>
+            <li><a href="#de-github-a-git">De GitHub a Git</a></li>
+            <li><a href="#de-git-a-github">De Git a GitHub</a></li>
+            <li><a href="#trabajo-colaborativo">Trabajo Colaborativo</a></li>
+            <li><a href="#Merge">Merge - Fusión</a></li>
+            <li><a href="#pr">Pull Request</a></li>
+            </ul></li>
+            <li><a href="#rstudio---git---github">RStudio - Git - GitHub</a>
+            <ul>
+            <li><a href="#proyectos-de-r">Proyectos de R</a></li>
+            <li><a href="#conectar-un-proyecto-nuevo-de-rstudio-con-git">Conectar un proyecto nuevo de RStudio con Git</a></li>
+            <li><a href="#clonar-un-repositorio-de-github-desde-rstudio">Clonar un repositorio de GitHub desde RStudio</a></li>
+            </ul></li>
+            </ul>
+          </div>
+          <div data-position="sidebar:post-end" class="InjectedComponents"><div class="dark-theme-toggler"><div class="toggle"><div class="toggle-track"><div class="toggle-track-check"><img  src="data:image/png;base64,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" role="presentation" style="pointer-events: none;" width="16" height="16"></div> <div class="toggle-track-x"><img src="data:image/png;base64,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" role="presentation" style="pointer-events: none;" width="16" height="16"></div></div> <div class="toggle-thumb"></div></div> <input type="checkbox" aria-label="Switch between Dark and Default theme" class="toggler-screen-reader-only"></div></div>
+        </div>
+        <div class="Main">
+          <div class="Content" id="content"> 
+   
+   
+      
+      <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">Material de Consulta</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li>
+        <a href="index.html"></a>
+      </li>
+      <li>
+        <a href="como_funciona.html">Uso del sitio</a>
+      </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Documentación
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="R-Markdown.html">R Markdown</a>
+          </li>
+          <li>
+            <a href="Xaringan-y-Flipbookr.html">Xaringan y Flipbookr</a>
+          </li>
+          <li>
+            <a href="https://carlos-arguello.shinyapps.io/Tutorial_Learnr/">Tutorial Learnr</a>
+          </li>
+          <li>
+            <a href="https://carlos-arguello.shinyapps.io/Introduction_to_R/">Introducción a R</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Git y más
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="Tutorial-de-Git-y-GitHub.html">Git y GitHub</a>
+          </li>
+          <li>
+            <a href="git_lab_kraken.html">GitLab y GitKraken</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Shiny
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="Intro-Shiny.html">Shiny App</a>
+          </li>
+          <li>
+            <a href="Shiny-Dashboards.html">Shiy Dashboard</a>
+          </li>
+          <li>
+            <a href="Flexdashboards.html">Flexdashboard</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Ejemplos
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="Ejemplo-R-Markdown.html">Rmarkdown</a>
+          </li>
+          <li>
+            <a href="primer_flipbookr.html">Flipbookr</a>
+          </li>
+          <li>
+            <a href="primer_flexdashboard.html">Flexdashboard</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Material académico
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="https://ciencia-de-datos.netlify.app/">Ciencia de Datos</a>
+          </li>
+          <li>
+            <a href="https://teoria-del-riesgo.netlify.app/">Teoría del riesgo</a>
+          </li>
+        </ul>
+      </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container -->
+      </div><!--/.navbar -->
+        
+      <h1 class="title">Tutorial de Git y GitHub</h1>
+      
+      <p class="authors">
+           <span class="glyphicon glyphicon-user"></span> Yanely &amp; Carlos
+      </p>
+         <p class="date"><span class="glyphicon glyphicon-calendar"></span> Última edición 06 de septiembre del 2021</p>
+           
+
+   
+      
+   
+<!-- Don't indent these lines or it will mess pre blocks indentation --> 
+<div class="page-content has-page-title">
+<div id="qué-es-git-y-para-qué-aprenderlo" class="section level1">
+<h1>¿Qué es Git y para qué aprenderlo?</h1>
+<p>Es un controlador de versiones <em>(de código)</em> esto quiere decir que se puede dar seguimiento a los cambios que se hagan en los archivos de código que pueden ser con lenguaje de R, Python, Java, entre muchos otros. Su importancia radica en que podemos rastrear todos los cambios: desde que subimos el primer código, lo modificamos-cargamos, hasta que terminamos el proyecto. Esto implica que se pueden rastrear errores por la fecha en que se “subió-cargó” el código y a hacer cambios desde alguna de las versiones anteriores.</p>
+<p><strong>El objetivo de este tutorial</strong> es que se aprendan las herramientas necesarias para realizar trabajo en equipo donde se use código de manera remota.</p>
+<p>Pensemos en una situación donde un grupo de personas desea realizar un proyecto para un análisis estadístico con R pero no se pueden reunir por cuestiones de una pandemia y tienen horarios difíciles de ajustar para <em>conectarse</em> a trabajar a la misma hora. Las personas se podrían organizar de diversas formas como crear grupos en plataformas de Facebook, Slack, WhatsApp, etcétera, sin embargo, el manejo del archivo base <em>(el código de R)</em> sería impráctico y muy ineficiente. Es por lo anterior que trabajar con Git y GitHub permitirá facilitar el manejo del archivo principal (o los múltiples archivos) sin necesidad de mandar distinas versiones por mensaje de texto, trabajar en el mismo horario o por turnos. Estas plataformas facilitan el desarrollo de proyectos que involucren código con orden y a gran escala.</p>
+<div id="instalar-git-en-windows" class="section level2">
+<h2>Instalar Git en Windows</h2>
+<ol style="list-style-type: decimal">
+<li>Ir a la <a href="https://git-scm.com/download/win">URL</a> para iniciar la descarga de Git para Windows.</li>
+<li>Una vez descargado el programa, ejecutarlo y seguir los pasos que se muestran. Cuando aparezca la ventana “Completing the Git Setup Wizard”, seleccionar solo la opción “Launch Git Bash” y dar clic en finalizar.</li>
+</ol>
+<div>
+<p style="text-align:center;">
+<img src="git%20setup.PNG" width="250" />
+</p>
+</div>
+<ol start="3" style="list-style-type: decimal">
+<li>Para configurar Git en tu computadora ingresamos el siguiente comando en Git Bash:</li>
+</ol>
+<p><code>git config --global user.name "tu user_name"</code></p>
+<p>y posteriormente el comando</p>
+<p><code>git config --global user.mail tu_email@mail.com</code></p>
+</div>
+<div id="instalar-git-en-mac-eduardo" class="section level2">
+<h2>Instalar Git en Mac <em>Eduardo</em></h2>
+</div>
+<div id="conceptos-básicos" class="section level2">
+<h2>Conceptos básicos</h2>
+<ul>
+<li>Directorio: mejor conocido como carpeta o folder, el directorio contiene los archivos de los cuales se desea tener el control de versiones.</li>
+</ul>
+<div>
+<p style="text-align: center">
+<img src="https://www.aulaclic.es/guia-windows8/images/Windows%208%20AULACLIC_img_184.jpg" width="100" />
+</p>
+</div>
+<ul>
+<li><p>Terminal o linea de comandos. Es una interface de texto donde se escriben los comandos que posteriormente usaremos para tener el control de los archivos y la modificación de los mismos.</p>
+<p>Para poder hacer uso de la terminal basta poner el buscador de Windows <code>GitBash</code> y dar click. Entonces aparecerá la terminal donde se escribirán todos los comandos.</p>
+<div>
+<p style="text-align:center;">
+<img src="terminal_gb.png" width="300" />
+</p>
+</div></li>
+<li><p>Línea de comandos: se compone de comandos como <code>git status</code> o <code>cd \Documentos</code></p></li>
+</ul>
+<div id="cd" class="section level6">
+<h6>cd</h6>
+<ul>
+<li><p>cd: permite cambiar de directorio, lo que es equivalente a un doble click para entrar en una carpeta. Por ejemplo, escribir <code>cd Documentos</code> permitirá ingresar a la carpeta llamada “Documentos”. <strong>Hint:</strong> si el nombre de tu carpeta es demasiado grande, basta escribir <code>cd</code>, luego las primeras dos letras del nombre de la carpeta a la cual quieres llegar y por último oprimir la tecla <code>tabulador</code>. El tabulador completa el nombre haciendo la escritura eficiente.</p></li>
+<li><p>clear: funciona para eliminar las líneas de código que se han escrito en la terminal hasta el momento. Esto solo es visual, no quita las instrucciones previas, solo “limpia” la terminal.</p>
+<p>Es importante aprender a usar la “Terminal” y sus comandos porque a partir de ellos se hace más fácil la instalación de programas o su <em>“lectura-corrimiento-carga”</em> (run programs). Esta forma de trabajar es para tener experiencia como “desarrollador” de algún proyecto. <strong>Nota.</strong> La función ctrl+c, ctrl+v no sirven para pegar o copiar en la terminal. Así que se debe hacer la selección de lo que se quiera copiar con el click derecho para copiar y así mismo para pegar.</p></li>
+<li><p>Editor de código: programa para desarrollar líneas de código, por ejemplo <code>RStudio</code>, <code>Java</code>, <code>Spyder</code>, <code>Notepad++</code>, <code>Visual Studio Code</code>, entre otros.</p></li>
+<li><p>Repositorio (repository). También se conoce repositorio de Git y es lo equivalente a un directorio, la diferencia es que se llama repositorio una vez que se inicializa en Git (ver <a href="#IR">detalles</a>).</p></li>
+</ul>
+</div>
+</div>
+<div id="IR" class="section level2">
+<h2>Inicializar un repositorio</h2>
+<p>Para incializar un repositorio localmente en una carpeta ya existente, es necesario abrir la <code>Terminal</code> y situarnos dentro de dicha carpeta <em>(usar cd)</em>. Posteriormente ingresamos el comando <code>git init</code>. El repositorio que creamos contiene los archivos que están dentro de la carpeta y apartir de ahora Git llevará el registro de los cambios en estos archivos.</p>
+</div>
+<div id="cp" class="section level2">
+<h2>Comandos principales</h2>
+<p>Los comandos que se muestran a continuación se usan con el prefijo <code>git</code> y en minúsculas. Por ejemplo: <code>git diff</code>. Tales comandos se usan en la terminal una vez que estamos en el repositorio inicializado.</p>
+<div>
+<p style="text-align:center;">
+<img src="Inkedterminal_cp.jpg" width="300" />
+</p>
+</div>
+<div id="add" class="section level3">
+<h3>Add</h3>
+<p>Cuando se quieren agregar, borrar o modificar “archivos” (por ejemplo un <code>archivo.R</code>) en un repositorio hay que “avisar” a Git sobre esos cambios para que los agregue al historial de cambios en el código. Lo anterior se hace con la función <code>add</code> a la cual le procede el nombre del archivo que se va a añadir, por ejemplo: <code>git add archivo.rmd</code>. En caso de que se quieran añadir todas las actualizaciones de todos los archivos en el repositorio se usa el comando <code>git add .</code></p>
+</div>
+<div id="commit" class="section level3">
+<h3>Commit</h3>
+<p>Una vez que se añadieron los cambios, hay que confirmarlos con este comando. La confirmación se hace con un mensaje que describa los cambios hechos. Por ejemplo:</p>
+<p><code>git commit -m "Este es el mensaje principal" -m "Aquí se puede hacer una descripción</code> <code>más detallada del cambio que se hizo al archivo correspondiente."</code></p>
+</div>
+<div id="status" class="section level3">
+<h3>Status</h3>
+<p>Permite conocer el estado en que se encuentran los archivos que se cambiaron o borraron antes de que se añadiera (<code>add</code>) y confirmara (<code>commit</code>) el cambio. Ejemplo de esto es lo que se muestra en la imagen de comandos principales.</p>
+</div>
+<div id="diff" class="section level3">
+<h3>Diff</h3>
+<p>El comando <code>git diff</code> nos permite comparar los cambios entre el último commit realizado y los archivos que se encuentrar en el staging area (los cambios que hemos añadido con <code>add</code> sin hacer <code>commit</code> aún).</p>
+</div>
+<div id="log" class="section level3">
+<h3>Log</h3>
+<p>Este comando nos muestra la lista de los commits que se han realizado en el repositorio. La lista incluye el hash de cada commit, su autor y el mensaje correspondiente. Aparecen ordenados del más reciente al más antiguo. Es posible que para visualizar toda la lista tengamos que usar la tecla de espacio hasta llegar al último commit, después del cual aparece <code>END</code>. Para salir de esta visualización, usamos la tecla <code>q</code>.</p>
+<p>La siguiente imagen da una idea vizual de lo que ocurre en cada comando que aplicamos (incluyendo los que se explicarán con mayor detalle posteriormente).</p>
+<div>
+<p style="text-align:center;">
+<img src="resumen.png" width="500" />
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="qué-es-github-y-para-qué-sirve" class="section level1">
+<h1>¿Qué es GitHub y para qué sirve?</h1>
+<p>GitHub es un servicio de hosting para repositorios, el cual se puede usar de manera conjunta con Git. Nos permite conectar repositorios de manera remota, lo que facilita el trabajo colaborativo. Para trabajar con GitHub debemos contar con conexión a internet, la cual no es necesario cuando usamos solo Git. GitHub ofrece una interfaz gráfica que facilita el uso de Git para principiantes.</p>
+<p>La importancia de esta plataforma radica en que no sólo se puede tener un control de los cambios que se hacen en el código (Git) sino que además estos pueden estar disponibles para un conjunto de personas que trabajen en el código de manera remota y asincrónica.</p>
+<div id="diferencias-entre-git-y-github" class="section level2">
+<h2>Diferencias entre Git y GitHub</h2>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Git</th>
+<th>GitHub</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Se puede usar sin GitHub</td>
+<td>Depende de Git para poder usarse</td>
+</tr>
+<tr class="even">
+<td>Trabajo sin conexión a internet</td>
+<td>Requiere conexión a internet</td>
+</tr>
+<tr class="odd">
+<td>El repositorio se almacena localmente</td>
+<td>El repositorio se almacena en la nube</td>
+</tr>
+<tr class="even">
+<td>Todos los comandos se introducen desde la Terminal</td>
+<td>Pueden hacerse cambios usando la interfaz gráfica</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="crear-una-cuenta" class="section level2">
+<h2>Crear una cuenta</h2>
+<p>Para usar GitHub es necesario crear una cuenta en la <a href="https://github.com/">página de GitHub</a> para lo que se requiere una cuenta de correo y una contraseña.</p>
+</div>
+<div id="de-github-a-git" class="section level2">
+<h2>De GitHub a Git</h2>
+<p>Una vez que hemos creado una cuenta en GitHub podemos hacer al menos dos cosas: trabajar en los archivos de un repositorio creado por otro usuario de GitHub <strong>o</strong> crear nuestro propio repositorio en GitHub e invitar a nuestros colaboradores para trabajar en los archivos que ahí se encuentren.</p>
+<div id="CR" class="section level3">
+<h3>Crear un repositorio</h3>
+<ol style="list-style-type: decimal">
+<li>Entrar a tu cuenta en GitHub previamente creada.</li>
+<li>Seleccionar el <code>+</code> en la esquina superior derecha.</li>
+<li>Seleccionar la pestaña <code>New repository</code>.</li>
+</ol>
+<div>
+<p style="text-align:center;">
+<img src="crear_repo.png" width="450" />
+</p>
+</div>
+<ol start="4" style="list-style-type: decimal">
+<li>Dar nombre y una breve descripción al repositorio.</li>
+<li>Seleccionar el botón <code>Create repository</code></li>
+</ol>
+<p><em>Nota:</em> Es posible que quieras añadir un archivo de texto que contenga la descipción de lo que se ha hecho a lo largo del proyecto en el repositorio, para lo cual es necesario seleccionar el botón que dice: <code>create a README</code>.</p>
+<div>
+<p style="text-align:center;">
+<img src="crear_repos.png" width="430" />
+</p>
+</div>
+<p>Este repositorio aún no está en la computadora local, por lo cual se debe “clonar” tal repositorio. En el siguiente apartado veremos cómo.</p>
+</div>
+<div id="clonar-un-repositorio" class="section level3">
+<h3>Clonar un repositorio</h3>
+<p>Clonar un repositorio significa “traer” (a tu computadora) archivos que están en algún repositorio de GitHub <em>(puede o no ser tuyo)</em> y no están en tu computadora. Es importante “traer” los archivos para que puedas modificarlos y este cambio se vea reflejado en GitHub. <em>La palabra <code>clonar</code> es distinta a “descargar” porque una vez que se usó el comando ”clone”, no es necesario hacerlo en cada ocasión como cuando se hacen descargas.</em> Con este comando es posible que las personas que colaboran en un proyecto (repositorio) tengan en sus computadoras los archios actualizados que se encuentran en el servidor de GitHub.</p>
+<p>La forma de “traer” el código es usar el comando <code>git clone</code> <a href="#cd">dentro de la carpeta</a> en la que se quiere guardar dicho repositorio con la terminal y posteriormente la liga de la dirección de GitHub. Para obtener la liga del repositorio de GitHub simplemente hay que seleccionar <em>(en nuestro repositorio de GitHub)</em> la palabra <code>Code</code> y posteriormente copiar y pegar la liga que ahí aparece.</p>
+<div id="url" class="section level6">
+<h6>url</h6>
+<div>
+<p style="text-align:center;">
+<img src="clonar.png" title="fig:" width="400" alt="Copiar la liga del repositorio en GitHub" />
+</p>
+</div>
+<p>De lo cual, en la terminal, obtenemos lo siguiente:</p>
+<div>
+<p style="text-align:center;">
+<img src="clonar1.png" title="fig:" width="450" alt="Comando para traer repositorios previamente hechos en GitHub" />
+</p>
+</div>
+<p>Hasta este momento sabemos cómo crear un repositorio en GitHub y conectarlo con nuestra máquina local lo que nos permite trabajar en equipo con archivos de código sin necesidad de conectarnos <em>(como equipo de trabajo)</em> en un horario particular. Los comandos para hacer las actualizaciones entre tu máquina local (Git) y el servidor (GitHub) se llaman <code>pull</code>-<code>push</code>. Tales comandos además de los <a href="#cp">comandos principales</a> permiten lograr un trabajo en equipo eficiente.</p>
+</div>
+</div>
+</div>
+<div id="de-git-a-github" class="section level2">
+<h2>De Git a GitHub</h2>
+<p>Es posible conectar un repositorio local existente con un repositorio remoto. Primero es necesario crear un repositorio nuevo en GitHub y copiar <a href="#url">la URL</a> de éste. Usando el comando <code>git remote add origin url</code> <em>(donde <code>url</code> es la URL del repositorio nuevo de GitHub</em>) en la terminal y directorio inicializado, creamos la conexión entre el repositorio local y el remoto.</p>
+<div>
+<p style="text-align:center;">
+<img src="conectar.png" width="450" />
+</p>
+</div>
+<div id="push" class="section level3">
+<h3>Push</h3>
+<p>Para subir los cambios realizados en el repositorio local al repositorio remoto (actualizar en GitHub los cambios que realizamos en la máquina local) es necesario usar el comando <code>git push</code> <strong>después de</strong> hacer <code>add</code> y <code>commit</code>. Como un repositorio puede estar conectado con más de un repositorio remoto y tener varias <a href="#branch">ramas</a>, debemos especificar ambas cosas al hacer el <code>push</code>. Trabajando en el repositorio remoto <code>origin</code> y la rama <code>main</code> (default), el comando es <code>git push origin main</code>.</p>
+</div>
+<div id="pull" class="section level3">
+<h3>Pull</h3>
+<p>Para “jalar” los cambios que se tienen en el repositorio remoto y actualizar los archivos en nuestro repositorio local se usa el comando <code>git pull</code> (en el repositorio local dentro de la terminal).</p>
+</div>
+</div>
+<div id="trabajo-colaborativo" class="section level2">
+<h2>Trabajo Colaborativo</h2>
+<p>Hasta ahora hemos visto la manera de trabajar un repositorio en Git y/o GitHub, así como los comandos para actualizar los cambios.</p>
+<p>Supongamos que en un proyecto, como puede ser el desarrollo de un videojuego, hay distintas partes del código donde se requiere hacer cambios o mejoras y es necesario no modificar el funcionamiento actual del proyecto hasta tener las otras partes completamente desarrolladas e incluirlas solo cuando ya sabemos que funcionan de manera adecuada. Además, queremos que distintos miembros del equipo trabajen en diferentes partes al mismo tiempo sin alterar el trabajo de los demás. Es en este caso donde el uso de las ramas de un repositorio es indispensable.</p>
+<div id="branch" class="section level3">
+<h3>Branch - Ramas</h3>
+<div>
+<p style="text-align:center;">
+<img src="ramas.png" width="350" />
+</p>
+</div>
+<p>Una rama (branch) de un repositorio puede considerarse como “un universo paralelo” del proyecto, pues los cambios que se realizan en ésta no afectan el contenido de las otras ramas existentes. Tener distintas ramas en un repositorio nos permite mantener distintas versiones de un mismo proyecto.</p>
+<p>Al crear una rama estamos copiando todo el contenido de la rama principal (main) hasta ese momento, incluyendo el historial de los commits realizados. Sin embargo, una vez que empezamos a modificar la nueva rama, el contenido de la rama principal no se ve alterado hasta que queramos <a href="#Merge">fusionar</a> las ramas.</p>
+<p>Cada miembro del equipo puede crear una rama en el repositorio para trabajar en distintas partes sin afectar el trabajo de los demás (antes de fusionar). Por ejemplo, en el desarrollo de un videojuego, un integrante puede dedicarse a trabajar en aumentar las funciones de los lugares donde se desarrolla el juego mientras otro se dedica a trabajar en la configuración de los idiomas, etc.</p>
+<div id="comandos-para-trabajar-en-ramas" class="section level4">
+<h4>Comandos para trabajar en ramas</h4>
+<ul>
+<li><p><code>git branch</code>: Muestra el listado de las ramas existentes hasta el momento, además de indicar con un asterisco la rama en la que nos encontramos. Por default siempre existe la rama principal (main/master).</p></li>
+<li><p><code>git checkout -b nombre_de_la_rama</code>: Crea una rama con nombre <code>nombre_de_la_rama</code>.</p></li>
+<li><p><code>git checkout nombre_de_la_rama</code>: Sirve para cambiar de rama. En este caso, nos cambiamos a la rama que se llama <code>nombre_de_la_rama</code>. Ya que estamos posicionados en la rama en la que queremos trabajar usamos los comandos vistos anteriormente (add, commit, pull, push, etc.) para registrar los cambios. Para registrar los cambios en el repositorio remoto, debemos especificar en el push la rama donde se guardarán usando el comando <code>git push --set-upstream origin nombre_de_la_rama</code>.</p></li>
+<li><p><code>git diff rama_1..rama_2</code>: Muestra las diferencias entre las ramas <code>rama_1</code> y <code>rama_2</code>.</p></li>
+<li><p><code>git branch -d nombre_de_la_rama</code>: Elimina la rama <code>nombre_de_la_rama</code>. Se utiliza cuando ya hemos hecho la fusión de esta rama con la rama principal y ya no la necesitamos.</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="Merge" class="section level2">
+<h2>Merge - Fusión</h2>
+<p>Una vez que hemos trabajado en una rama y realizamos todos los cambios necesarios, podemos fusionar estos cambios con el contenido de la rama principal. Para esto usamos el comando <code>git merge rama_secundaria rama_principal</code>, el cual fusiona la rama_secundaria con la rama_principal.</p>
+<div id="conflictos-al-fusionar-ramas" class="section level4">
+<h4>Conflictos al fusionar ramas</h4>
+<p>Supongamos que mientras trabajabamos en una nueva rama, el contenido de la rama principal se modificó después de haber creado la nueva rama, por lo que ésta no incluye dichos cambios.</p>
+<ul>
+<li><p>Un conflicto que suele surgir al fusionar ramas es cuando no se han actualizado los cambios que sufrió la rama principal en nuestra rama secundaria. Esto se puede resolver de la siguiente forma:</p>
+<ol style="list-style-type: decimal">
+<li>Añadir los cambios al repositorio local (add).</li>
+<li>Confirmar dichos cambios (commit).</li>
+<li>Actualizar el contenido de la rama principal en la rama secundaria (pull origin main).</li>
+<li>Hacer la fusión (push –set-upstream origin nombre_de_la_rama).</li>
+<li>Generar un pull request para hacer la fusión entre las ramas.</li>
+</ol></li>
+</ul>
+<p><strong>Antes de aprender Pull Reques, es importante conocer cuál es el objetoivo de su uso para lo cual se necesita saber sobre forking</strong></p>
+</div>
+<div id="forking" class="section level3">
+<h3>Forking</h3>
+<p>Si queremos trabajar con algún repositorio de GitHub del que no somos creadores, podemos hacer forking para copiar el repositorio ajeno a nuestra cuenta de GitHub. Al hacer cambios en el repositorio (del que hicimos forking), no formarán parte del repositorio orignial a menos que hagamos <a href="#pr">Pull Request</a>.</p>
+<div id="cómo-hacer-forking" class="section level4">
+<h4>¿Cómo hacer forking?</h4>
+<ol style="list-style-type: decimal">
+<li><p>Seleccionar algún repo (repositorio) ajeno que quieras modificar.</p></li>
+<li><p>Una vez dentro del repositorio ajeno, dar click en el ícono que dice <code>fork</code></p>
+<div>
+<p style="text-align:center;">
+<img src="fork.png" width="350" />
+</p>
+</div></li>
+<li><p>Posteriormente, en tu cuenta aparecerá el reopsitorio</p></li>
+</ol>
+<div>
+<p style="text-align:center;">
+<img src="fork1.png" width="350" />
+</p>
+</div>
+<ol start="4" style="list-style-type: decimal">
+<li>Modificamos alguno de los archivos del repositorio.</li>
+</ol>
+<div>
+<p style="text-align:center;">
+<img src="fork2.png" width="350" />
+</p>
+</div>
+<p>Y los confirmamos</p>
+<div>
+<p style="text-align:center;">
+<img src="fork3.png" width="350" />
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="pr" class="section level2">
+<h2>Pull Request</h2>
+<p>Como su nombre lo indica, un Pull Request es una petición que el propietario de una rama (o <a href="#forking">fork</a>) de un repositorio hace al propietario del repositorio original para que este último incorpore los commits que están en tal rama, a la rama principal.</p>
+<p>En otras palabras es una manera de pedir permiso para hacer “merge” o fusionar en un repositorioo del que no eres propietario.</p>
+<div id="cómo-se-usa" class="section level5">
+<h5>¿Cómo se usa?</h5>
+<p>Para poder hacer uso de esta herramienta, es necesario haber hecho modificaciones de un repo del que hicimos <a href="#forking">forking</a> de tal forma que GitHub reconozca que hay diferncias.</p>
+<ol style="list-style-type: decimal">
+<li>En GitHub, seleccionar PullRequest</li>
+</ol>
+<div>
+<p style="text-align:center;">
+<img src="pr1.png" width="350" />
+</p>
+</div>
+<ol start="2" style="list-style-type: decimal">
+<li>Crear el PullRequest.</li>
+</ol>
+<div>
+<p style="text-align:center;">
+<img src="pr2.png" width="350" />
+</p>
+</div>
+<ol start="3" style="list-style-type: decimal">
+<li>Puedes añadir alguna explicación que verá la creadora del repositorio.</li>
+</ol>
+<div>
+<p style="text-align:center;">
+<img src="pr3.png" width="450" />
+</p>
+</div>
+<ol start="4" style="list-style-type: decimal">
+<li>Esperar que la personas dueña del repositorio acepte tus cambios como parte de su trabajo. Al creador del repositorio le aparecerá un mensaje como el siguiente:</li>
+</ol>
+<div>
+<p style="text-align:center;">
+<img src="pr4.jpeg" width="450" />
+</p>
+</div>
+<p><strong>NOTA:</strong> El pull request no solo se usa en el forking, se pueden hacer también peticiones dentro de un mismo repositorio cuando algún colaborador quiere fusionar su rama a la rama principal. Cuando se encuentran como colaboradores de un repositorio no es necesario hacerlo dado que desde la terminal se pueden solucionar los conflictos de merge, sin embargo, es conveniente hacer estas peticiones para que quede un registro más preciso de los cambios que otros colaboradores puedan ver.</p>
+</div>
+</div>
+</div>
+<div id="rstudio---git---github" class="section level1">
+<h1>RStudio - Git - GitHub</h1>
+<p>Es posible conectar con Git y GitHub desde RStudio, lo cual tiene la ventaja de que al modificar archivos en RStudio podemos registrar los cambios en el repositorio sin la necesidad de movernos a la Terminal. Para hacer esto posible, es necesario verificar primero que Git esté instalado correctamente y R y RStudio estén actualizados (con una versión de R de 4.0 o más reciente debería funcionar correctamente). Una vez cumplidos estos requisitos, debemos verificar que Git esté conectado con RStudio en <em>Tools</em> -&gt; <em>Global options</em> -&gt; <em>Git/SVN</em> verificando que el directorio de git.exe que se solicita sea el correcto.</p>
+<div id="proyectos-de-r" class="section level2">
+<h2>Proyectos de R</h2>
+<div id="qué-es-un-proyecto-de-r" class="section level4">
+<h4>¿Qué es un Proyecto de R?</h4>
+<p>Es un archivo con extensión <code>.Rproj</code> que al momento de su creación genera un directorio.</p>
+</div>
+<div id="cuáles-son-las-ventajas-de-usar-archivos-.rproj" class="section level4">
+<h4>¿Cuáles son las ventajas de usar archivos .Rproj?</h4>
+<ol style="list-style-type: decimal">
+<li><p>Sirve para trabajar dentro de un mismo ambiente, es decir, mantener todos los archivos relacionados a un proyecto en un mismo lugar. Por ejemplo, si se desea hacer una página web, un libro web o análisis que impliquen varios archivos a trabajr en RStudio.</p>
+<p>Estos se ve reflejado en la facilidad de uso de las rutas para archivos. Si por ejemplo se desea poner una imagen, ya no será necesario pegar toda la ruta de la imagen sino simplemente su nombre <em>(siempre y cuando la imagen esté dentro de la carpeta del proyecto)</em>.</p></li>
+<li><p>Podemos conectar RStudio con Git y GitHub sin necesidad de usar la terminal.</p></li>
+</ol>
+<p>Entre otras.</p>
+</div>
+</div>
+<div id="conectar-un-proyecto-nuevo-de-rstudio-con-git" class="section level2">
+<h2>Conectar un proyecto nuevo de RStudio con Git</h2>
+<p>La forma más sencilla de comenzar a trabajar Git con RStudio es creando un nuevo proyecto desde RStudio y seleccionar la opción que se muestra:</p>
+<div>
+<p style="text-align:center;">
+<img src="newp_creategit.PNG" width="350" />
+</p>
+</div>
+<p>Con esto se creará un repositorio de Git localmente en conjunto con el proyecto de R. Podemos agregar archivos ya existentes a este repositorio para comenzar a registrar los cambios con Git.</p>
+</div>
+<div id="clonar-un-repositorio-de-github-desde-rstudio" class="section level2">
+<h2>Clonar un repositorio de GitHub desde RStudio</h2>
+Podemos clonar un repositorio de GitHub a nuestra computadota directamente desde RStudio creando un nuevo proyecto y seleccionando la opción <em>Version control</em>.
+<div>
+<p style="text-align:center;">
+<img src="newproyect.PNG" width="350" />
+</p>
+</div>
+<p>Posteriormente, pegamos el <a href="#url">link de GitHub</a> del repositorio que queremos clonar.</p>
+<p>Para realizar los comandos previamente presentados (como <code>add</code>, <code>commit</code>, <code>pull</code>, <code>push</code>) sin necesidad de usar la terminal tenemos que:</p>
+<ol style="list-style-type: decimal">
+<li>Abrir un proyecto de R creado con <code>Version Control</code> de Git.</li>
+<li>Abrir un archivo <em>(.R, .rmd, etc.)</em> <strong>dentro</strong> del proyecto.</li>
+<li>Seleccionar la pestaña de <code>Git</code>.</li>
+<li>Para los comandos:
+<ul>
+<li><code>add</code>: seleccionar la palomita.</li>
+<li><code>commit</code>: seleccionar <code>Commit</code>.</li>
+<li><code>push</code>: seleccionar la flecha verde que apunta hacia arriba.</li>
+<li><code>pull</code>: seleccionar la flecha azul que apunta hacia abajo.
+<div>
+<p style="text-align:center;">
+<img src="comandos_en_RStudio.png" width="350" />
+</p>
+</div></li>
+</ul></li>
+</ol>
+</div>
+</div>
+</div>
+
+   
+   
+              </div>
+  </div>
+  </div>
+  </div>
+   
+      
+
+  <script>
+    $(document).ready(function () {
+
+		// add bootstrap table styles to pandoc tables
+	$('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+		
+ 	 	$('#content img').addClass("image-thumb");
+		
+		$('#content img:not(.no-lightbox)').addClass("image-lb");
+	$('#content').magnificPopup({
+	    type:'image',
+	    closeOnContentClick: false,
+	    closeBtnInside: false,
+	    delegate: '.image-lb',
+	    gallery: {enabled: false },
+	    image: {
+	        verticalFit: true,
+		titleSrc: 'alt'
+	    }
+ 	});
+ 	    });
+  </script>
+
+
+
+    <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+	var script = document.createElement("script");
+	script.type = "text/javascript";
+	script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+	document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+  
+</body>
+</html>

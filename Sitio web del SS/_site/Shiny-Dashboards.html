@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="pandoc" />
+
+        <meta name="author" content="Carlos A. Ar." />
+    
+    
+    <title>Shiny Dashboards</title>
+
+        <script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
+        <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="site_libs/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="site_libs/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+        <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+        <script src="site_libs/navigation-1.1/tabsets.js"></script>
+        <link href="site_libs/magnific-popup-1.1.0/magnific-popup.css" rel="stylesheet" />
+        <script src="site_libs/magnific-popup-1.1.0/jquery.magnific-popup.min.js"></script>
+        <link href="site_libs/downcute-0.1/downcute.css" rel="stylesheet" />
+        <link href="site_libs/downcute-0.1/downcute_fonts_embed.css" rel="stylesheet" />
+        <script src="site_libs/downcute-0.1/downcute.js"></script>
+        <script src="site_libs/prism-1.22/prism.js"></script>
+    
+    
+    
+    
+    <!-- tabsets -->
+    <script>
+      $(document).ready(function () {
+	  window.buildTabsets("toc");
+      });
+      $(document).ready(function () {
+	  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+	      $(this).parent().toggleClass('nav-tabs-open')
+	  });
+      });
+    </script>
+
+    <!-- code folding -->
+    
+    <!-- code download -->
+    
+    <!-- tabsets dropdown -->
+
+    <style type="text/css">
+      .tabset-dropdown > .nav-tabs {
+	  display: inline-table;
+	  max-height: 500px;
+	  min-height: 44px;
+	  overflow-y: auto;
+	  background: white;
+	  border: 1px solid #ddd;
+	  border-radius: 4px;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li.active:before {
+	  content: "";
+	  font-family: 'Glyphicons Halflings';
+	  display: inline-block;
+	  padding: 10px;
+	  border-right: 1px solid #ddd;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+	  content: "&#xe258;";
+	  border: none;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+	  content: "";
+	  font-family: 'Glyphicons Halflings';
+	  display: inline-block;
+	  padding: 10px;
+	  border-right: 1px solid #ddd;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li.active {
+	  display: block;
+      }
+
+      .tabset-dropdown > .nav-tabs > li.active a {
+  	  padding: 0 15px !important;
+      }
+
+      .tabset-dropdown > .nav-tabs > li > a,
+      .tabset-dropdown > .nav-tabs > li > a:focus,
+      .tabset-dropdown > .nav-tabs > li > a:hover {
+	  border: none;
+	  display: inline-block;
+	  border-radius: 4px;
+	  background-color: transparent;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+	  display: block;
+	  float: none;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li {
+	  display: none;
+	  margin-left: 0 !important;
+      }
+    </style>
+    
+</head>
+
+<body class="preload">
+
+   	
+               <!-- downcute start -->   
+   <div id="docute" class="Root">
+     <div class="Page layout-narrow">
+      <div class="Wrap">
+        <div class="Sidebar">
+          <div class="SidebarItems" id="toc">
+            <ul>
+            <li><a href="#estructura-de-shinydashboard">1. Estructura de ShinyDashboard</a>
+            <ul>
+            <li><a href="#head">Header</a></li>
+            <li><a href="#sidebar">Sidebar (and) Body</a></li>
+            </ul></li>
+            <li><a href="#conexiones-entre-ui-and-server.">2. Conexiones entre ui and server.</a></li>
+            <li><a href="#personalización-del-dashboard">3. Personalización del dashboard</a>
+            <ul>
+            <li><a href="#acomodo-del-body-por-bootstrap">Acomodo del body por Bootstrap</a></li>
+            <li><a href="#cambiar-colores-fondo-estilos-de-letra">Cambiar colores, fondo, estilos de letra</a></li>
+            </ul></li>
+            <li><a href="#ejemplo">4. Ejemplo</a></li>
+            <li><a href="#uno-hecho-por-mí">Uno Hecho por mí…</a></li>
+            </ul>
+          </div>
+          <div data-position="sidebar:post-end" class="InjectedComponents"><div class="dark-theme-toggler"><div class="toggle"><div class="toggle-track"><div class="toggle-track-check"><img  src="data:image/png;base64,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" role="presentation" style="pointer-events: none;" width="16" height="16"></div> <div class="toggle-track-x"><img src="data:image/png;base64,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" role="presentation" style="pointer-events: none;" width="16" height="16"></div></div> <div class="toggle-thumb"></div></div> <input type="checkbox" aria-label="Switch between Dark and Default theme" class="toggler-screen-reader-only"></div></div>
+        </div>
+        <div class="Main">
+          <div class="Content" id="content"> 
+   
+   
+      
+      <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">Material de Consulta</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li>
+        <a href="index.html"></a>
+      </li>
+      <li>
+        <a href="como_funciona.html">Uso del sitio</a>
+      </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Documentación
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="R-Markdown.html">R Markdown</a>
+          </li>
+          <li>
+            <a href="Xaringan-y-Flipbookr.html">Xaringan y Flipbookr</a>
+          </li>
+          <li>
+            <a href="https://carlos-arguello.shinyapps.io/Tutorial_Learnr/">Tutorial Learnr</a>
+          </li>
+          <li>
+            <a href="https://carlos-arguello.shinyapps.io/Introduction_to_R/">Introducción a R</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Git y más
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="Tutorial-de-Git-y-GitHub.html">Git y GitHub</a>
+          </li>
+          <li>
+            <a href="git_lab_kraken.html">GitLab y GitKraken</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Shiny
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="Intro-Shiny.html">Shiny App</a>
+          </li>
+          <li>
+            <a href="Shiny-Dashboards.html">Shiy Dashboard</a>
+          </li>
+          <li>
+            <a href="Flexdashboards.html">Flexdashboard</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Ejemplos
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="Ejemplo-R-Markdown.html">Rmarkdown</a>
+          </li>
+          <li>
+            <a href="primer_flipbookr.html">Flipbookr</a>
+          </li>
+          <li>
+            <a href="primer_flexdashboard.html">Flexdashboard</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Material académico
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="https://ciencia-de-datos.netlify.app/">Ciencia de Datos</a>
+          </li>
+          <li>
+            <a href="https://teoria-del-riesgo.netlify.app/">Teoría del riesgo</a>
+          </li>
+        </ul>
+      </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container -->
+      </div><!--/.navbar -->
+        
+      <h1 class="title">Shiny Dashboards</h1>
+      
+      <p class="authors">
+           <span class="glyphicon glyphicon-user"></span> Carlos A. Ar.
+      </p>
+         <p class="date"><span class="glyphicon glyphicon-calendar"></span> Última edición 06 de septiembre del 2021</p>
+           
+
+   
+      
+   
+<!-- Don't indent these lines or it will mess pre blocks indentation --> 
+<div class="page-content has-page-title">
+<pre class="r"><code>#Paquetes a usar
+library(shinydashboard)
+library(shinydashboardPlus)
+library(&quot;leaflet&quot;)
+
+#Condiciones generales del Rmd
+knitr::opts_chunk$set(eval = FALSE)</code></pre>
+<div id="estructura-de-shinydashboard" class="section level1">
+<h1>1. Estructura de ShinyDashboard</h1>
+<p>Es una página un poco más elaborada que shiny porque te permite tener múltiples accesos dado el panel de menú que se inserta del lado izquierdo.</p>
+<p>Las partes que componen al Dashboard son dos: la interfás de usuario (ui) y el servidor (server).</p>
+<p>La interfás de usuario (lo que el usuarioo puede ver y “tocar”) se compone de tres cosas principalmente:</p>
+<ul>
+<li><p><a href="#head">Header</a></p></li>
+<li><p><a href="#sidebar">Sidebar</a></p></li>
+<li><p><a href="#body">Body</a></p></li>
+</ul>
+<p>Cada una de las cuales se estudiarán en este documento.</p>
+<p>Primero veamos en forma general cómo se compone un dashboard de Shiny:</p>
+<pre class="r"><code># El ui necesita ahora tres elementos principales
+ header &lt;- shinydashboard::dashboardHeader()
+ sidebar &lt;- shinydashboard::dashboardSidebar()
+ body &lt;- shinydashboard::dashboardBody()
+
+#Generamos la interfás de usuario con esos elementos
+ui &lt;- shinydashboard::dashboardPage(skin = &quot;green&quot;, header, sidebar, body)
+
+#Creamos el servidor como siempre
+server &lt;- function(input, output){}
+
+#Creamos la aplicación de shiny
+shiny::shinyApp(ui, server)</code></pre>
+<p><img src="shinyD1.png" title="Dashboard vacío" /></p>
+<div id="head" class="section level2">
+<h2>Header</h2>
+<p>En este apartado podemos poner diferentes cosas como el título de la app, pero además podemos añadir otras funcionalidades como:</p>
+<div id="messages" class="section level3">
+<h3>Messages</h3>
+<p>Para que el usuario del dashboard haga una recomendación sobre las cosas que puedes consultar para aclarar los conocimientos que aprenderás. El siguiente código solo contiene lo que debe de modificarse en el <code>header</code> para que aparezca de lado izquierdo los mensajes <em>que desees</em>.</p>
+<pre class="r"><code>header &lt;- dashboardHeader(
+  #Con esta fucnión agregamos al menú un tipo de cosa en el header
+  dropdownMenu(
+    #Con este parámetro especificamos el tipo de cosa
+    type = &quot;messages&quot;,
+    #Estta función permíte agregar los mensajes corresponientes
+    messageItem(
+      #Quién escribe el mensaje
+        from = &quot;Lucy&quot;,
+      #Cuáles es el mensjae (o recomendación)
+        message = &quot;You can view the International Space Station!&quot;,
+      #En dónde puedes encontrar la información necesaria.
+        href = &quot;https://spotthestation.nasa.gov/sightings/&quot;
+        ),
+    #Como este mensaje aparece después, entonces aparecerá en segundo lugar.
+    messageItem(
+        from = &quot;Carlos&quot;,
+        message = &quot;Learn more about the International Space Station&quot;, 
+        href = &quot;https://spotthestation.nasa.gov/faq.cfm&quot;
+        )
+    )
+)</code></pre>
+<div class="figure">
+<img src="shinyD2.png" alt="" />
+<p class="caption">Si le das click al mensaje, se abrirá la referencia que pusiste en el código.</p>
+</div>
+</div>
+<div id="notifications" class="section level3">
+<h3>Notifications</h3>
+<p>Las notifiaciones tienen diversas fucnionalidades para poder añadir las cosas a la app.</p>
+<p>Análogo a lo que sucede en mensajes, se puede hacer un tipo de COSA pero para notificar algo, por ejemplo:</p>
+<pre class="r"><code>header &lt;- dashboardHeader(
+  dropdownMenu(
+    type = &quot;notifications&quot;,
+    notificationItem(
+      #La diferencia está en que el parámetro donde se
+      #escribe la notificación, se llama &quot;text&quot; y no &quot;mesage&quot;
+      text = &quot;The International Space Station is overhead!&quot;
+      )
+  )
+)</code></pre>
+<div class="figure">
+<img src="shinyD3.png" alt="" />
+<p class="caption">Nota que aquí cambia también la figura del ícono</p>
+</div>
+</div>
+<div id="bar-of-progress" class="section level3">
+<h3>Bar of progress</h3>
+<p>Te dice cuál es el progreso de lo que va del curso.</p>
+<p>Para finalizar (el entendimiento de las posibilidades para el header). veamos el siguiente código que nos devuelve una barra de progreso y un texto.</p>
+<pre class="r"><code>header &lt;- dashboardHeader(
+  dropdownMenu(
+    type = &quot;tasks&quot;,
+#Recuerda que es importante cambiar la función del Item a realizar según el
+#tipo de cosa en el encabezado.
+    taskItem(
+    #El texto que indica sobre qué se mide el progreso.
+    text = &quot;Mission Learn Shiny Dashboard&quot;,
+    #El valor del progreso (qué porcentaje se ha avanzado en esa cosa.)
+    value = 10
+    )
+  )
+)</code></pre>
+<div class="figure">
+<img src="shinyD4.png" alt="" />
+<p class="caption">Aquí podemos ver la barra de progreso</p>
+</div>
+</div>
+<div id="las-tres-juntas-mnt" class="section level3">
+<h3>Las tres juntas (MNT)</h3>
+<pre class="r"><code>header &lt;- dashboardHeader(
+#Para los mensajes:
+  dropdownMenu(
+    type = &quot;messages&quot;,
+    messageItem(
+        from = &quot;Lucy&quot;,
+        message = &quot;You can view the International Space Station!&quot;,
+        href = &quot;https://spotthestation.nasa.gov/sightings/&quot;
+        ),
+    messageItem(
+        from = &quot;Carlos&quot;,
+        message = &quot;Learn more about the International Space Station&quot;, 
+        href = &quot;https://spotthestation.nasa.gov/faq.cfm&quot;
+        )
+  ),
+  
+#Para la notificación:
+ dropdownMenu(
+       type = &quot;notifications&quot;,
+       notificationItem(
+       text = &quot;The International Space Station is overhead!&quot;
+       )
+  ),
+
+#Para el task:
+  dropdownMenu(
+      type = &quot;tasks&quot;,
+      taskItem(
+      text = &quot;Mission Learn Shiny Dashboard&quot;,
+      value = 10
+      )
+  )
+)</code></pre>
+<p><img src="shinyD5.png" /></p>
+</div>
+<div id="comentarios-optimizar-las-líneas-de-código." class="section level3">
+<h3>Comentarios: optimizar las líneas de código.</h3>
+<p>Posiblemente quieras agregar muchos mensjaes, notificaciones, o barras de progreso, tienes una lista predefinida con los mensjaes que quieres mostrar, pero hacerlo en el header como quedamos es mucho problema.</p>
+<p>¿Qué pasaría si podemos meter una lista y se generen sin mucho lío de escritura los mensajes? El siguiente código es una forma conveniente donde podemos agregar mensajes al encabezado sin escribirlos todos.</p>
+<pre class="r"><code>#Como el manejo de información lo tiene que hacer el servidor 
+# (y no el ui donde se ecuentra el header), lo modificamos para tener un 
+# menú de avances sin tanto problema:
+
+server &lt;- function(input, output) {
+  #Creamos una salida que se llame &quot;task_menu&quot; haciendo referencia a que el
+  #menú que obtendremos será de pustos tasks (barras de progreso).
+ 
+  output$task_menu &lt;- renderMenu({ # &lt;- Nos sirve para que se nos devuelva
+                                   # una salida renderizada tipo Menú
+                                   # el cual se crea a continuación.
+    
+  #Para lo anterior creamos una lista que nos permita tener los mensajes
+  #ordentados. Esta lista se llamará &quot;tasks&quot;
+                
+            #La función apply agarra una lista y le aplica una función
+            # a cada uno de sus objetos.
+    
+  tasks &lt;- apply(task_data, 1, # &lt;- &quot;task_data&quot; es la lista a la que  
+                 function(row) { # se le aplicará la función acá definida
+                 taskItem(text = row[[&quot;text&quot;]],
+                          value = row[[&quot;value&quot;]])
+                } #Que de manera práctica genera todos los items de la lista
+            )
+  
+  #Con lo anterior facilmente hacemos una lista de &quot;tasks&quot; y las ponemos
+  #(como siempre) en el dropdownMenu. 
+  dropdownMenu(type = &quot;tasks&quot;, .list = tasks)
+  })
+}
+
+#En vez de hacer todo en el header, podemos simplemente mandar a llamar al menú y ponerlo en nuestro encabezado.
+
+header &lt;- dashboardHeader(dropdownMenuOutput(&quot;task_menu&quot;))</code></pre>
+</div>
+</div>
+<div id="sidebar" class="section level2">
+<h2>Sidebar (and) Body</h2>
+<p>En la barra de al lado (Sidebar) podemos añadir distintas cosas que seccionen mejor la información (por si queremos una app un poco más robusta que solo Shiny). Como para cada click que demos en esta barra, aparecerán resultados en el Body, es necesario notar que debe haber algo que los relacione.</p>
+<p>Podemos construir la Sidebar, pero hay un parámetro que los une para indicar que por cada click que demos en el nombre dentro de la Sidebar, habrá un resultado (conjunto de resultados) distinto(s).</p>
+<p>En el body además de poner las cosas que vimos en shiny (como las pestañas), se pueden ir poniendo “más subbodys”. Tantos como pestañas se encuentren en la Sidebar.</p>
+<div id="sintáxis-sidebar" class="section level3">
+<h3>Sintáxis Sidebar</h3>
+<pre class="r"><code>#Modificamos la fucnión &quot;dashboardSidebar&quot;
+sidebar &lt;- dashboardSidebar(
+#Pues añadimos un menú de opciones
+  sidebarMenu(
+#Con diferentes items
+    menuItem(
+    #Que tienen el texto que aparecerá en la barra
+      text = &quot;Dashboard&quot;,
+    #Y el identificador (Para conectar con el body)
+      tabName = &quot;dashboard&quot;
+    ),
+    menuItem(
+      text = &quot;Inputs&quot;,
+      tabName = &quot;inputs&quot;
+    )
+  )
+)</code></pre>
+<div class="figure">
+<img src="shinyD6.png" alt="" />
+<p class="caption">Podemos notar que no hay nada en el body porque no hay “conexión” entre sidebar y body.</p>
+</div>
+</div>
+<div id="body" class="section level3">
+<h3>Sintáxis Body</h3>
+<pre class="r"><code>body &lt;- dashboardBody(
+#Creamos la conexión con la Sidebar
+  tabItems(
+  #Conectamos con el menú que tiene un identificador llamado &quot;dashboard&quot;
+    tabItem(&quot;dashboard&quot;),
+  #Conectamos el body con &quot;inputs&quot;
+    tabItem(&quot;inputs&quot;)
+  )
+)
+
+#NOTA: aun no hemos puesto nada en el cuero (del ítem correspondiente), simplemente hicimos la conexión.</code></pre>
+<p>Ahora sí añadiremos un poco de más contenido al body. esto se hace dentro de los tabItems correspondientes, en este caso sólo añadiremos al item dashboard, contenido (que a su vez tendrá dos submenus).</p>
+<pre class="r"><code>body &lt;- dashboardBody(
+  tabItems(
+    tabItem(
+      tabName = &quot;dashboard&quot;,
+    #Con esta función &quot;tabBox&quot; podemos crear el contenido del body en el 
+    #item que se llama &quot;dashboard&quot;.
+      tabBox(
+      #Al contenido le ponemos un título
+        title = &quot;International Space Station Fun Facts&quot;,
+      #Con páneles (el primer argumento es el nombre del panel)
+        tabPanel(&quot;Fun Fact 1&quot;, &quot;Content for the first tab&quot;),
+      #que tienen por segundo argumento el contenido, ES DECIR,
+      #LO REALMENTE IMPORTANTE EN UNA APP
+        tabPanel(&quot;Fun Fact 2&quot;, &quot;Content for the second tab&quot;)
+      )
+    ),
+    #Esta otra tab aún NO TIENE CONTENIDO
+    tabItem(tabName = &quot;inputs&quot;)
+  )
+)</code></pre>
+<p>Ya que tenemos el <strong>body</strong> conectado con la <strong>sidebar, podemos tener una app que se vea así:</strong></p>
+<div class="figure">
+<img src="shinyD7.png" alt="" />
+<p class="caption">Notemos que por el código quer escribimos, la pestaña de “Input” no tiene apun contenido</p>
+</div>
+</div>
+</div>
+</div>
+<div id="conexiones-entre-ui-and-server." class="section level1">
+<h1>2. Conexiones entre ui and server.</h1>
+<p>Recordemos que dentro de una shiny app, necesitamos la interfás de usuario y el servidor que se conectan mediante los inputs, outputs y render functions.</p>
+<p>Cada función de <code>___Input</code> o <code>___Output</code> va dentro del <strong>ui</strong> mientras que cada función de <code>render___</code> va dentro del <strong>server</strong> y sirve para definir (renderizadamente) los objetos creados que aparecerán en la <strong>ui.</strong> Es por ello que para cada render, le corresponde un tipo de Output.</p>
+<p><img src="shinyD8.png" width="199" /></p>
+<p><img src="shinyD9.png" width="375" /></p>
+<p><img src="shinyD10.png" width="263" /></p>
+<p><img src="shinyD11.png" width="334" /></p>
+<p><img src="shinyD12.png" width="387" /></p>
+<p><img src="shinyD13.png" width="240" /></p>
+<p>Se puede leer información <strong>(pero no entendí eso qué o qué)</strong></p>
+<p>Para poder hacer botones renderizados que les des click y se aumente la cuenta.</p>
+<pre class="r"><code># En la barra de menú ponemos un botón para tocar.
+sidebar &lt;- dashboardSidebar(
+              actionButton(&quot;click&quot;, &quot;Update click box&quot;) # &lt;- es una entrada
+           ) 
+
+# El servidor resibirá el valor del click y generaremos 
+# la salida &quot;Click Box&quot;
+server &lt;-
+  function(input, output) {
+    output$click_box &lt;-
+      renderValueBox({
+        valueBox(value = input$click, 
+                 subtitle = &quot;Click Box&quot;)
+      })
+  }
+
+# La salida se mostrará en el cuerpo de nuestro dashboard
+body &lt;- dashboardBody(valueBoxOutput(&quot;click_box&quot;))</code></pre>
+<p><img src="shinyD14.png" /></p>
+</div>
+<div id="personalización-del-dashboard" class="section level1">
+<h1>3. Personalización del dashboard</h1>
+<div id="acomodo-del-body-por-bootstrap" class="section level2">
+<h2>Acomodo del body por Bootstrap</h2>
+<p>Para los shiny dashboord se usa un tipo de “programación” bootstrap que consiste en ordenar la información por columnas o renglones. El número de columas permitido (dentro del body) es 12 así mismo para el número de renglones. En ese sentido, es importante saber cómo se puede hacer una sintáxis de código para acomodarlo en nuestro dashboard.</p>
+<div id="por-renglones" class="section level3">
+<h3>Por renglones</h3>
+<p>Podemos hacer que en el body del dashboard, existan diversas filas que contengas información.</p>
+<pre class="r"><code>#Dentro del body de la shiny dashboard
+body &lt;- dashboardBody(
+
+#Creamos un renglón
+  fluidRow(
+  # Qué contenga una &quot;caja&quot;
+    box(
+      # que abarque las 12 columans posibles
+      width = 12,
+      #Y que lleve un cierto título
+      title = &quot;Regular Box, Row 1&quot;,
+      &quot;Star Wars&quot;
+      )
+  ),
+  
+  #Adempas creamos otro renglón
+  fluidRow(
+    #Con otra caja
+    box(
+      #que igual ocupe las 12 columnas 
+      width = 12,
+      title = &quot;Regular Box, Row 2&quot;,
+      &quot;Nothing but Star Wars&quot;
+      )
+  )
+)</code></pre>
+<p><img src="shinyD15.png" /></p>
+</div>
+<div id="por-columnas" class="section level3">
+<h3>Por columnas</h3>
+<pre class="r"><code>body &lt;- dashboardBody(
+  fluidRow(
+#Aquí no es necesario poner dos &quot;fluidRow&quot; dado que ya sabemos que existe
+#una sola columna para todas las filas
+      #Especificamos el ancho de la columna (que consta de 6 columanas)
+      column(width = 6,
+      infoBox(
+        #La caja del contenido no tiene un ancho especídico porque ese ya 
+        #se había especificado anteirormente. 
+        width = NULL,
+        title = &quot;Regular Box, Column 1&quot;,
+        subtitle = &quot;Gimme those Star Wars&quot;
+      )
+    ),
+# Esta es la otra columna
+    column(width = 6,
+      infoBox(
+      width = NULL,
+      title = &quot;Regular Box, Column 2&quot;,
+      subtitle = &quot;Don&#39;t let them end&quot;
+      )
+    )
+  )
+)</code></pre>
+<p><img src="shinyD16.png" /></p>
+</div>
+<div id="por-renglones-y-columnas" class="section level3">
+<h3>Por renglones y columnas</h3>
+<pre class="r"><code>body &lt;- dashboardBody(
+  fluidRow(
+# Un relón &quot;entero&quot;
+  box(
+    width = 12,
+    title = &quot;Regular Box, Row 1&quot;,
+    &quot;Star Wars, nothing but Star Wars&quot;
+    )
+  ),
+
+#Otro renglón que se divide
+  fluidRow(
+  #Esta es la primera columna de ese rebglón
+  column(width = 6,
+    infoBox(
+      width = NULL,
+      title = &quot;Regular Box, Row 2, Column 1&quot;,
+      subtitle = &quot;Gimme those Star Wars&quot;
+      )
+    ),
+  #Esta es la segunda columna de ese rebglón
+  column(width = 6,
+    infoBox(
+      width = NULL,
+      title = &quot;Regular Box, Row 2, Column 2&quot;,
+      subtitle = &quot;Don&#39;t let them end&quot;
+      )
+    )
+  )
+)</code></pre>
+<p><img src="shinyD17.png" /></p>
+</div>
+</div>
+<div id="cambiar-colores-fondo-estilos-de-letra" class="section level2">
+<h2>Cambiar colores, fondo, estilos de letra</h2>
+<div id="colores" class="section level3">
+<h3>Colores</h3>
+<p>Para cabiar colores solo es necesario usar la función <code>skin</code> dentro de la función <code>dashboardPage()</code> <em>donde se ponen el header, sidebar y output.</em></p>
+<p>Los colores disponibles son:</p>
+<ul>
+<li><p>blue <em>(por defecto)</em></p></li>
+<li><p>black</p></li>
+<li><p>purple</p></li>
+<li><p>green</p></li>
+<li><p>red</p></li>
+<li><p>yellow</p></li>
+</ul>
+<pre class="r"><code>ui &lt;- dashboardPage(
+#Este es el parámetro que cambia el color
+  skin = &quot;purple&quot;,
+  header = dashboardHeader(),
+  sidebar = dashboardSidebar(),
+  body = body)</code></pre>
+<p><img src="shinyD18.png" /></p>
+</div>
+<div id="css.-íconos." class="section level3">
+<h3>CSS. Íconos.</h3>
+<p>Podemos además de cambiar el color, la letra, el fodo, añadir muchas cosas que harán ver nuestra imagen increible.</p>
+<p>La manera formal es sabiendo un poco sobre esta sintáxis que es “todo un mundo”. Sin embargo, aquí veremos cómo podemos hacer ciertas cosas con este estilo de formato añadido a la shiny dashboard.</p>
+<pre class="r"><code>body &lt;- dashboardBody(
+#Iniciamos la escritura en CSS
+      tags$head( # &lt;- cambiamos el título
+        tags$style( # &lt;- con un estilo de HTML 
+            HTML(&#39;  
+           h3 {
+                font-weight: bold;
+              }
+            &#39;) #Para que la letra (en el título) sea &quot;negrita&quot;
+        )
+    ),
+  fluidRow(
+    box(
+      width = 12,
+      title = &quot;Regular Box, Row 1&quot;,
+      &quot;Star Wars, nothing but Star Wars&quot;
+    )
+  ),
+  fluidRow(
+    column(width = 6,
+      infoBox(
+        width = NULL,
+        title = &quot;Regular Box, Row 2, Column 1&quot;,
+        subtitle = &quot;Gimme those Star Wars&quot;
+    )
+   ),
+    column(width = 6,
+      infoBox(
+        width = NULL,
+        title = &quot;Regular Box, Row 2, Column 2&quot;,
+        subtitle = &quot;Don&#39;t let them end&quot;
+    )
+  )
+ )
+)</code></pre>
+<p><img src="shinyD19.png" /></p>
+<p>Para poner íconos primero puedes <a href="https://fontawesome.com/icons?d=gallery&amp;p=2">conocer los que hay</a> para posteriormente utilizarlos donde creas conveniente, por ejemplo en el <code>header</code> o algún otro lugar.</p>
+<pre class="r"><code>header &lt;- dashboardHeader(
+  dropdownMenu(
+    type = &quot;notifications&quot;,
+    notificationItem(
+      text = &quot;The International Space Station is overhead!&quot;,
+#Aquí simplemente añadimos el ícono de &quot;nave espacial&quot; en la notificación
+      icon = icon(&quot;rocket&quot;)
+    )
+  )
+)</code></pre>
+<p><img src="shinyD20.png" /></p>
+<p>Podemos también cambiar el color de las cajas que creamos dentro de nuestro dashboard. Esto se hace a través de los destintos estados <code>status</code> que corresponden a lo siguiente:</p>
+<p><img src="shinyD21.png" /></p>
+<p>Veamos el ejemplo siguiente:</p>
+<pre class="r"><code>body &lt;- dashboardBody(
+  tags$head(
+    tags$style(
+      HTML(&#39;
+      h3 {
+        font-weight: bold;
+      }
+      &#39;)
+    )
+  ),
+  fluidRow(
+    box(
+      width = 12,
+      title = &quot;Regular Box, Row 1&quot;,
+      &quot;Star Wars, nothing but Star Wars&quot;,
+#Aquí hacemos que la primer caja sea roja.
+      status = &quot;danger&quot;
+    )
+  ),
+  fluidRow(
+    column(width = 6,
+      infoBox(
+        width = NULL,
+        title = &quot;Regular Box, Row 2, Column 1&quot;,
+        subtitle = &quot;Gimme those Star Wars&quot;,
+#Podemos añadir al título una estrella
+        icon = icon(&quot;star&quot;)
+    )
+   ),
+    column(width = 6,
+      infoBox(
+        width = NULL,
+        title = &quot;Regular Box, Row 2, Column 2&quot;,
+        subtitle = &quot;Don&#39;t let them end&quot;,
+#O incluso puedes pintar el fondo de la caja.
+        color = &quot;yellow&quot;
+    )
+  )
+ )
+)</code></pre>
+<p><img src="shinyD22.png" /></p>
+</div>
+</div>
+</div>
+<div id="ejemplo" class="section level1">
+<h1>4. Ejemplo</h1>
+<pre class="r"><code>max_vel &lt;- sort(nasa_fireball$vel)[159]
+max_impact_e &lt;- sort(nasa_fireball$impact_e)[500]
+max_energy &lt;- sort(nasa_fireball$energy)[500]
+
+n_us &lt;- sum(
+  ifelse(
+    nasa_fireball$lat &lt; 64.9 &amp; nasa_fireball$lat &gt; 19.5
+      &amp; nasa_fireball$lon &lt; -68.0 &amp; nasa_fireball$lon &gt; -161.8,
+        1, 0),
+  na.rm = TRUE)
+
+
+server &lt;- function(input, output) {
+  output$plot &lt;- renderLeaflet({
+    leaflet() %&gt;%
+      addTiles() %&gt;%  
+      addCircleMarkers(
+        lng = nasa_fireball$lon,
+        lat = nasa_fireball$lat, 
+        radius = log(nasa_fireball$impact_e), 
+        label = nasa_fireball$date, 
+        weight = 2)
+    })
+}
+
+body &lt;- dashboardBody(
+ fluidRow(
+    valueBox(
+      value = max_energy, 
+      subtitle = &quot;Maximum total radiated energy (Joules)&quot;, 
+      icon = icon(&quot;lightbulb-o&quot;)
+    ),
+    valueBox(
+      value = max_impact_e, 
+      subtitle = &quot;Maximum impact energy (kilotons of TNT)&quot;,
+      icon = icon(&quot;star&quot;)
+    ),
+    valueBox(
+      value = max_vel,
+      subtitle = &quot;Maximum pre-impact velocity&quot;, 
+      icon = icon(&quot;fire&quot;)
+    )
+  ),
+  fluidRow(
+    leafletOutput(&quot;plot&quot;)
+  )
+)
+
+
+ui &lt;- dashboardPage(
+  skin = &quot;red&quot;,
+  header = dashboardHeader(),
+  sidebar = dashboardSidebar(),
+  body = body
+)
+
+shinyApp(ui, server)</code></pre>
+<p><a href="https://rstudio.github.io/shinydashboard/examples.html">Aquí hay más ejemplos</a></p>
+</div>
+<div id="uno-hecho-por-mí" class="section level1">
+<h1>Uno Hecho por mí…</h1>
+<pre class="r"><code>header &lt;- shinydashboard::dashboardHeader(
+  dropdownMenu(
+    type = &quot;messages&quot;,
+    messageItem(
+        from = &quot;Carliux&quot;,
+        message = &quot;Este dashboard fue creado para ti, disfrútalo&quot;,
+        icon = icon(&quot;accusoft&quot;)
+        ),
+    messageItem(
+        from = &quot;Yane&quot;,
+        message = &quot;Podrías conocer más acerca de nuestro trabajo en nuestra página&quot;, 
+        href = &quot;https://tutorialesmg.netlify.app/&quot;,
+        icon = icon(&quot;award&quot;)
+        ),
+    messageItem(
+        from = &quot;Lalo&quot;,
+        message = &quot;Colabora con nosotros para hacer más material&quot;, 
+        href = &quot;https://github.com/yanelyluna/Sitios-en-R-sobre-Git&quot;,
+        icon = icon(&quot;github&quot;)
+        )
+  ),
+dropdownMenu(
+       type = &quot;notifications&quot;,
+       notificationItem(
+       text = &quot;El dashboard aún está en desarrollo&quot;,
+       icon = icon(&quot;car-battery&quot;)
+       ),
+       notificationItem(
+       text = &quot;Ten gusto por usar estas aplicaciones de R&quot;,
+       icon = icon(&quot;cookie-bite&quot;)
+       )
+  ),
+
+
+  dropdownMenu(
+      type = &quot;tasks&quot;,
+      taskItem(
+      text = &quot;Elegir un tema para hacer un dashboar en shiny&quot;,
+      value = 50
+      ),
+      taskItem(
+      text = &quot;Ver videos sobre esta herramienta&quot;,
+      value = 78
+      ),
+      taskItem(
+      text = &quot;Dar click para explorar este dashboard&quot;,
+      value = 100,
+      href = &quot;https://rstudio.github.io/shinydashboard/examples.html&quot;
+      )
+  )
+)
+
+
+sidebar &lt;- shinydashboard::dashboardSidebar(
+  sidebarMenu(
+    menuItem(
+      text = &quot;Acercamiento de listas&quot;,
+      tabName = &quot;a_listas&quot;
+    ),
+    menuItem(
+      text = &quot;Dos cuadritos&quot;,
+      tabName = &quot;d_cuadritos&quot;
+    ),
+    menuItem(
+      text = &quot;Mejor haz una mezcla&quot;,
+      tabName = &quot;mezcla&quot;
+    )
+  )
+)
+
+
+body &lt;- shinydashboard::dashboardBody(
+    tabItems(
+    tabItem(
+      
+      tabName = &quot;a_listas&quot;,
+      tabBox(
+        title = &quot;Este ejemplo contiene listas.&quot;,
+        tabPanel(&quot;Añade las que quieras&quot;,
+                 fluidRow(
+                    box(
+                      width = 12,
+                      title = &quot;Una caja larga&quot;,
+                      &quot;Todo lo que puedes hacer en Shiny Dashboards&quot;
+                      )
+                  ),
+                 
+                  fluidRow(
+                    box(
+                      width = 12,
+                      title = &quot;Otra caja larga&quot;,
+                      &quot;Te sirve para entender el funcionamiento&quot;
+                    )
+                  )
+                ),
+        tabPanel(&quot;Si quieres pon varios colores&quot;,
+                fluidRow(
+                    box(
+                      width = 12,
+                      title = &quot;Esta otra caja...&quot;,
+                      &quot;Está más padre porque tiene colorcitos y además íconos&quot;,
+                      status = &quot;danger&quot;,
+                      icon = icon(&quot;charging-station&quot;)
+                      )
+                  ),
+                 
+                  fluidRow(
+                    box(
+                      width = 12,
+                      title = &quot;Igual esta está padre&quot;,
+                      &quot;Se ve el diseño, todo muy interesante&quot;,
+                      icon = icon(&quot;copy&quot;),
+                      color = &quot;orange&quot;,
+                      status = &quot;danger&quot;
+                    )
+                  ) 
+                )
+      )
+    ),
+
+    tabItem(
+      tabName = &quot;d_cuadritos&quot;,
+      tabBox(
+        title = &quot;Cuadros aquí hay ejemplos&quot;,
+        
+        tabPanel(&quot;Cuadritos básicos&quot;,
+          fluidRow(
+            column(width = 6,
+                    infoBox(
+                      width = NULL,
+                      title = &quot;Esta es un bello cuadrito&quot;,
+                      subtitle = &quot;La verdad creo que esto no es muy útil&quot;,
+                      color = &quot;orange&quot;,
+                      icon = icon(&quot;cut&quot;)
+                    )
+                  ),
+            column(width = 6,
+                    infoBox(
+                      width = NULL,
+                      title = &quot;Segundo cuadrito&quot;,
+                      subtitle = &quot;Ya me cansé de tratar de usar todos los clicks&quot;,
+                      color = &quot;green&quot;,
+                      icon = icon(&quot;edit&quot;)
+                    )
+                  )
+            ) 
+          ),
+        tabPanel(&quot;Bellos cuadros&quot;,
+                 fluidRow(
+            column(width = 6,
+                    infoBox(
+                      width = NULL,
+                      title = &quot;Mi trecer cuadrito en el Dashboard&quot;,
+                      subtitle = &quot;Se me acaban las ideas&quot;,
+                      color = &quot;yellow&quot;,
+                      icon = icon(&quot;fire&quot;)
+                    )
+                  ),
+            column(width = 6,
+                    infoBox(
+                      width = NULL,
+                      title = &quot;Último cuadrito de verdad&quot;,
+                      subtitle = &quot;Esto sí que está muy talachudo, si vieras el código...&quot;,
+                      ,
+                      color = &quot;purple&quot;,
+                      icon = icon(&quot;frog&quot;)
+                    )
+                  )
+            ) 
+          )
+      )
+    ),
+    tabItem(
+      tabName = &quot;mezcla&quot;,
+        fluidRow(
+            box(
+              width = 12,
+              title = &quot;Este renglonazo&quot;,
+              &quot;Te quedaste con el ojo triangular, ¿no?&quot;,
+              status = &quot;danger&quot;
+              )
+            ),
+          
+            fluidRow(
+            column(width = 6,
+              infoBox(
+                width = NULL,
+                title = &quot;Chance y...&quot;,
+                subtitle = &quot;No te gustan tan largos&quot;,
+                color = &quot;olive&quot;,
+                icon = icon(&quot;hiking&quot;)
+                )
+              ),
+            column(width = 6,
+              infoBox(
+                width = NULL,
+                title = &quot;Me prefieres a mí&quot;,
+                subtitle = &quot;Un poco más compacto&quot;,
+                color = &quot;black&quot;,
+                icon = icon(&quot;file-alt&quot;)
+                )
+              )
+            )
+
+      )
+    )
+  )
+
+
+
+
+
+server &lt;- function(input, output){
+    
+}
+
+
+
+ui &lt;- shinydashboard::dashboardPage(
+                skin = &quot;red&quot;, 
+                header, 
+                sidebar, 
+                body
+)
+
+
+shiny::shinyApp(ui, server)</code></pre>
+</div>
+</div>
+
+   
+   
+              </div>
+  </div>
+  </div>
+  </div>
+   
+      
+
+  <script>
+    $(document).ready(function () {
+
+		// add bootstrap table styles to pandoc tables
+	$('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+		
+ 	 	$('#content img').addClass("image-thumb");
+		
+		$('#content img:not(.no-lightbox)').addClass("image-lb");
+	$('#content').magnificPopup({
+	    type:'image',
+	    closeOnContentClick: false,
+	    closeBtnInside: false,
+	    delegate: '.image-lb',
+	    gallery: {enabled: false },
+	    image: {
+	        verticalFit: true,
+		titleSrc: 'alt'
+	    }
+ 	});
+ 	    });
+  </script>
+
+
+
+    <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+	var script = document.createElement("script");
+	script.type = "text/javascript";
+	script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+	document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+  
+</body>
+</html>

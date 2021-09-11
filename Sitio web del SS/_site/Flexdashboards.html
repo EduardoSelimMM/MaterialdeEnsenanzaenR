@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="pandoc" />
+
+        <meta name="author" content="Carlos A. Ar." />
+    
+    
+    <title>Flexdashboard</title>
+
+        <script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
+        <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="site_libs/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="site_libs/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+        <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+        <script src="site_libs/navigation-1.1/tabsets.js"></script>
+        <link href="site_libs/magnific-popup-1.1.0/magnific-popup.css" rel="stylesheet" />
+        <script src="site_libs/magnific-popup-1.1.0/jquery.magnific-popup.min.js"></script>
+        <link href="site_libs/downcute-0.1/downcute.css" rel="stylesheet" />
+        <link href="site_libs/downcute-0.1/downcute_fonts_embed.css" rel="stylesheet" />
+        <script src="site_libs/downcute-0.1/downcute.js"></script>
+        <script src="site_libs/prism-1.22/prism.js"></script>
+    
+    
+    
+    
+    <!-- tabsets -->
+    <script>
+      $(document).ready(function () {
+	  window.buildTabsets("toc");
+      });
+      $(document).ready(function () {
+	  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+	      $(this).parent().toggleClass('nav-tabs-open')
+	  });
+      });
+    </script>
+
+    <!-- code folding -->
+    
+    <!-- code download -->
+    
+    <!-- tabsets dropdown -->
+
+    <style type="text/css">
+      .tabset-dropdown > .nav-tabs {
+	  display: inline-table;
+	  max-height: 500px;
+	  min-height: 44px;
+	  overflow-y: auto;
+	  background: white;
+	  border: 1px solid #ddd;
+	  border-radius: 4px;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li.active:before {
+	  content: "";
+	  font-family: 'Glyphicons Halflings';
+	  display: inline-block;
+	  padding: 10px;
+	  border-right: 1px solid #ddd;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+	  content: "&#xe258;";
+	  border: none;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+	  content: "";
+	  font-family: 'Glyphicons Halflings';
+	  display: inline-block;
+	  padding: 10px;
+	  border-right: 1px solid #ddd;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li.active {
+	  display: block;
+      }
+
+      .tabset-dropdown > .nav-tabs > li.active a {
+  	  padding: 0 15px !important;
+      }
+
+      .tabset-dropdown > .nav-tabs > li > a,
+      .tabset-dropdown > .nav-tabs > li > a:focus,
+      .tabset-dropdown > .nav-tabs > li > a:hover {
+	  border: none;
+	  display: inline-block;
+	  border-radius: 4px;
+	  background-color: transparent;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+	  display: block;
+	  float: none;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li {
+	  display: none;
+	  margin-left: 0 !important;
+      }
+    </style>
+    
+</head>
+
+<body class="preload">
+
+   	
+               <!-- downcute start -->   
+   <div id="docute" class="Root">
+     <div class="Page layout-narrow">
+      <div class="Wrap">
+        <div class="Sidebar">
+          <div class="SidebarItems" id="toc">
+            <ul>
+            <li><a href="#estructura-de-un-flexdashboard.">1. Estructura de un flexdashboard.</a></li>
+            <li><a href="#gráficos-interactivos">2. Gráficos interactivos</a></li>
+            <li><a href="#destacar-datos">3. Destacar datos</a></li>
+            <li><a href="#interacción-con-shiny">4. Interacción con Shiny</a></li>
+            <li><a href="#referencias">Referencias</a></li>
+            </ul>
+          </div>
+          <div data-position="sidebar:post-end" class="InjectedComponents"><div class="dark-theme-toggler"><div class="toggle"><div class="toggle-track"><div class="toggle-track-check"><img  src="data:image/png;base64,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" role="presentation" style="pointer-events: none;" width="16" height="16"></div> <div class="toggle-track-x"><img src="data:image/png;base64,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" role="presentation" style="pointer-events: none;" width="16" height="16"></div></div> <div class="toggle-thumb"></div></div> <input type="checkbox" aria-label="Switch between Dark and Default theme" class="toggler-screen-reader-only"></div></div>
+        </div>
+        <div class="Main">
+          <div class="Content" id="content"> 
+   
+   
+      
+      <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">Material de Consulta</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li>
+        <a href="index.html"></a>
+      </li>
+      <li>
+        <a href="como_funciona.html">Uso del sitio</a>
+      </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Documentación
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="R-Markdown.html">R Markdown</a>
+          </li>
+          <li>
+            <a href="Xaringan-y-Flipbookr.html">Xaringan y Flipbookr</a>
+          </li>
+          <li>
+            <a href="https://carlos-arguello.shinyapps.io/Tutorial_Learnr/">Tutorial Learnr</a>
+          </li>
+          <li>
+            <a href="https://carlos-arguello.shinyapps.io/Introduction_to_R/">Introducción a R</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Git y más
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="Tutorial-de-Git-y-GitHub.html">Git y GitHub</a>
+          </li>
+          <li>
+            <a href="git_lab_kraken.html">GitLab y GitKraken</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Shiny
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="Intro-Shiny.html">Shiny App</a>
+          </li>
+          <li>
+            <a href="Shiny-Dashboards.html">Shiy Dashboard</a>
+          </li>
+          <li>
+            <a href="Flexdashboards.html">Flexdashboard</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Ejemplos
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="Ejemplo-R-Markdown.html">Rmarkdown</a>
+          </li>
+          <li>
+            <a href="primer_flipbookr.html">Flipbookr</a>
+          </li>
+          <li>
+            <a href="primer_flexdashboard.html">Flexdashboard</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Material académico
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="https://ciencia-de-datos.netlify.app/">Ciencia de Datos</a>
+          </li>
+          <li>
+            <a href="https://teoria-del-riesgo.netlify.app/">Teoría del riesgo</a>
+          </li>
+        </ul>
+      </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container -->
+      </div><!--/.navbar -->
+        
+      <h1 class="title">Flexdashboard</h1>
+      
+      <p class="authors">
+           <span class="glyphicon glyphicon-user"></span> Carlos A. Ar.
+      </p>
+         <p class="date"><span class="glyphicon glyphicon-calendar"></span> Última edición 06 de septiembre del 2021</p>
+           
+
+   
+      
+   
+<!-- Don't indent these lines or it will mess pre blocks indentation --> 
+<div class="page-content has-page-title">
+<pre class="r"><code># Librerías
+#install.packages(&quot;flexdashboard&quot;)
+library(flexdashboard)
+library(ggplot2)
+library(plotly)
+library(leaflet)
+
+# Opciones Globales
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, eval = FALSE)</code></pre>
+<div id="estructura-de-un-flexdashboard." class="section level2">
+<h2>1. Estructura de un flexdashboard.</h2>
+<p>Un <strong>dashboard</strong> o tablero, es un documento donde se puede consultar iformación de direntes tipos de una manera simple, compuesto por “tablas” que pueden contener gráficos, tablas, texto y mapas.</p>
+<p>En particular <strong>flexdashboard</strong> es un paquete de R que tiene el objetivo de crear un <strong>dashboard</strong> pero a partir de un <a href="https://tutorialesmg.netlify.app/r-markdown">archivo Rmd</a> e incluso poner componentes interactivos con <a href="https://shinys.netlify.app/">shiny</a>.</p>
+<div id="crear-el-flexdashboard." class="section level3">
+<h3>Crear el flexdashboard.</h3>
+<p>Para eso tenemos que:</p>
+<ol style="list-style-type: decimal">
+<li><p>Generar un archivo Rmd</p></li>
+<li><p>Cambiar el encabezado YAML donde el <code>output</code> será: <code>felxdashboard::flex_dashboard</code></p></li>
+<li><p><strong>Charts.</strong> Agregar <code>chart's</code>. Los chart son los componentes del dashboard y tienen la finalidad de “dividir” un flex dashboard. Cada chart creado se vuelve en automático una columna, sin embargo se pueden hacer mpultiples charts en una columna, así como múltiples columnas.</p></li>
+<li><p>Para entender el punto anterior:</p>
+<p><img src="flexd1.png" /></p></li>
+<li><p>Podemos ajustar el ancho de las columnas a nuestro gusto usando: <code>Column {data-width = lo_que_sea}</code> donde “lo que sea” va de 1 a 1000.</p></li>
+<li><p>Si en vez de hacer el acomodo de lo que deseamos en columnas, lo queremos en filas, simplemente agregamos una especificación en el encabezado YAML como sigue:</p>
+<pre><code>output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows</code></pre></li>
+<li><p>Si usas la sintáxis anterior, ahora veremos lo resultados de manera horizontal y además en vez de definir el ancho, se define el alto por lo que la sintáxis siguiente: <code>Row {data-heigh = 456}</code> permitirá que la altura de la Fila sea de 456. Esto se ponría en vez del punto 5.</p></li>
+<li><p>Si no te alcanza todo en una hoja, puedes permitir que el usuario vea un tipo documento Rmd, pero eso no es lo usual. De cualquier manera, puedes hacerlo agregando en el YAML lo siguiente:</p>
+<pre><code>output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: scroll</code></pre>
+<p>Por defecto <code>vertical_layout: fill</code> lo cual significa que cada chart definido aquí se verá en una sola página ajustando el largo, por tanto si el usuario hace más grande su ventana, en esta proporción se alargarán los charts.</p>
+<p>Lo anterior no pasa cuando <code>vertical_layout: scroll</code>, de hecho, con este comando se está diciendo que se respete el largo de cada chart aun cuando el usuario cambie el largo de la ventana. Esta indicación es útil para que puedas crear muchos charts y el usuario pueda “ir hacia abajo” en el contenido.</p></li>
+<li><p><strong>Tabset.</strong> Una mejor solución al punto 8, es agregar varios charts por cada columna . Esto se hace:</p>
+<p><img src="flexd2.png" /></p>
+<p>El uso de estas herramientas se hace para poder presentar información secundaria e interesante que no es la primordial.</p>
+<p><em>Los .tabset van en las columnas</em></p></li>
+<li><p><strong>Pages.</strong> Si aún con lo anterior no te quedas convencid@, no te preocupes, puedes agregar tantas páginas como desees, para indicar esto, necesitas al menos 16 signos de igual y en el renglón de arriba, el nombre de la página correspondiente.</p>
+<p><img src="flexd3.png" /></p></li>
+<li><p><strong>Menú de páginas.</strong> Aún más!!! Puedes generar un menú de páginas para cada página agregando (En la página) <code>{data-navmenu=Nombre_del_menú}</code>. Esto está incrible porque te permite insertar muchas hojas en un mismo tema.</p>
+<p>Es importante que cada una de las hojas que quieras meter en un mismo menú tengan el mismo <code>Nombre_de_menú</code>.</p>
+<div class="figure">
+<img src="flexd4.png" alt="" />
+<p class="caption">Observa que puedes poner páginas sin menú (antes y después de la del menú). Se irá creando el menú conforme se crean las páginas.</p>
+</div></li>
+</ol>
+<p>Ahora, recuerda que existen dos tipos de “acomodos” que son por columnas o filas. Si en alguna de tus páginas tienes la intención de cambiar la orientación, puedes hacerlo:</p>
+<p><img src="flexd5.png" /></p>
+<p>Añadiendo el atributo <code>data-orientation = (rows/columns)</code> solo puedes elegir rows o columns.</p>
+<p>Hasta ahora puedes tener una estructura de flexdashboard increíble.</p>
+</div>
+</div>
+<div id="gráficos-interactivos" class="section level2">
+<h2>2. Gráficos interactivos</h2>
+<div id="gráficos" class="section level3">
+<h3>Gráficos</h3>
+<p>La ventaja de flexdashbard es la posibilidad de insertar el cógido del gráfico dentro del chunk (como en Rmd) pero no solo eso, sino que existen formas de solcionar que el gráfico se ajuste a las medidas según el usuario abra una ventana más chica o más grande.</p>
+<p>Las opciones siguientes dentro del “encabezado” del chunk de código, permitirán ajustar las dimensiones del gráfico que se verá (en cualquiera de los <code>charts</code>).</p>
+<ul>
+<li><p><code>fig.width =</code> 10, es para ajustar el ancho del gráfico.</p></li>
+<li><p><code>fig.height =</code> 6, es para ajustar la altura del gráfico.</p></li>
+</ul>
+</div>
+<div id="plotly" class="section level3">
+<h3>Plotly</h3>
+<p>Para poder sanar los problemas de cambiar tamaños para ser más amigables con el usuario o usuaria del Dashboard, podemos usar diversas opciones que sirven para hacer interactivo el usuario con el gráfico.</p>
+<p>Estas son algunas opciones:</p>
+<p><img src="flexd6.png" /></p>
+<p>La ventaja de <code>plotly</code> es que podemos hacer gráficas interactivas sin necesidad de saber más que <code>ggplot</code>.</p>
+<p>Para hacerlo simplemente hay que hacer lo siguiente:</p>
+<pre class="r"><code>#Primero definimos el gráfico con la función ggplot (recuerda que puede ser)
+#un gráfico muy muy elaborado
+mi_grafico_con_ggplot &lt;- ggplot(data = data, aes(x = x, y = y)) + 
+                                  geom_line()
+
+#Posteriormente solo metemos el gráfico (o incluso todo el código) dentro de la función &quot;ggplotly&quot;
+ggplotly(mi_grafico_de_ggplot)</code></pre>
+<p>Las ventajas de usar este paquete es que el usuario tendrá más interacción con los gráficos generados a partir de ciertos datos. (Un histograma, gráfico de barras, boxplot, serie de tiempo, funciones de probabildiad <em>(densidad, distribución),</em> trayectorias de procesos estocásticos <em>(caminata aleatoria, movimiento browniano, proceso de renovación, cadena de markow a tiempo continuo-discreto)</em> o simplemente gráficos de funciones “no aleatorias” como polinómicas, logarítmicas, exponenciales, truncadas, etc…).</p>
+<p>Más información <a href="https://plotly.com/r/">aquí</a></p>
+</div>
+<div id="leaflet" class="section level3">
+<h3>Leaflet</h3>
+<p>Análogo a Plotly, esta paquetería permite generar gráficos interactivos pero para mapas, así es, un mapa que sirve para ver por ejemplo: cómo se distribuyen geográficamente los casos de contagio en una pandemia.</p>
+<p>En general es importante de esta librería que sepas que las entradas, son coordenadas y que tales coordenadas son útiles para “ubicar” el dato con referencia a lo que quieres.</p>
+<p>Por ejemplo:</p>
+<pre class="r"><code>#Opción 1
+addMarkers(addTiles(leaflet()), lat = stations_df$latitude, stations_df$longitude)
+
+#Opción 2: más fácil
+leaflet(stations_df) %&gt;%
+  addTiles() %&gt;%
+  addMarkers()</code></pre>
+<p>Más infromación <a href="https://rstudio.github.io/leaflet/">aquí</a></p>
+</div>
+</div>
+<div id="destacar-datos" class="section level2">
+<h2>3. Destacar datos</h2>
+<div id="números" class="section level3">
+<h3>Números</h3>
+<p>Para destacar los números (datos en particular) se genera primero un chun de código dentro del cual se usará (demás de los cálculos para llegar al número) la función <code>valueBox(valor, caption = "Descripción del número", icon = "algún ícolo representativo del número")</code></p>
+<p>Al valor se le puede añadir cosas bonitas como comas o signos de pesos y eso se logra con la función <code>prettyNum(valor, big.mark = ",")</code>, esto se convertirá en el valor que irá dentro de la función <code>valueBox()</code>.</p>
+<p>Al final tendremos lo siguiente:</p>
+<p><img src="flexd7.png" /></p>
+<p>Notemos que tiene la caja un color particular. Podemos añadir a la función <code>valueBox()</code> el parámetro <code>color</code> que indique otras posibilidades. Por ejemplo “primary” <em>(por defecto, azul)</em>, “info” <em>(amarillo)</em>, “success” <em>(verde)</em>, “warning” <em>(naranja)</em> y “danger” <em>(rojo).</em></p>
+<p>Hay otros parámetro sinteresantes para esta función que permiten que tengas un resultado más llamativo y completo.</p>
+</div>
+<div id="medidores-como-el-de-la-gasolina" class="section level3">
+<h3>Medidores (como el de la gasolina)</h3>
+<p>Se usa la función <code>gauge()</code> que explicaremos con un ejemplo</p>
+<pre class="r"><code>#Para dar una medida (por ejemplo el porcentaje de riesgo  
+# de la población según su edad), creamos un medidor
+gauge(value = valor_del_1_al_100, # &lt;- que contiene los datos que medirá
+      min = 0, # además de un mínimo aceptado (en el &quot;rango&quot; de la medida)
+      max = 100, # y un máximo
+  #Además podemos añadir un poquito de mensajes por si lo consideramos
+      sectors = gaugeSectors(
+        #Por ejemplo tenemos (en este código) éxito cuando el valor está 
+        # entre 90 - 100
+                    success = c(90, 100),
+        # Sin embargo aparecerá un mensaje de advertencia cuando el valor
+        # se encuentre entre 70-89
+                    warning = c(70, 89),
+                    danger = c(0, 69)
+      ),
+  # Además que podemos decir que el valor metido se le añadirá el símbolo
+  # de porcentaje
+      symbol = &quot;%&quot;
+)</code></pre>
+<p>Notemos que cuando estamos en la zona de éxito, tenemos un color verde en la barra, naranja en la de “warning” y rojo en “danger”.</p>
+</div>
+<div id="interconectar" class="section level3">
+<h3>Interconectar</h3>
+<p>Podemos hacer que el dashboard sea un poco más interactivo logrando que el usuario al “dar click” sobre uno de los <a href="#números">Números</a>, entonces el usuario vea otra pantalla con información más detallada al respecto de ese número.</p>
+<p>Esto se hace con los pasos siguientes:</p>
+<ol style="list-style-type: decimal">
+<li>Tener al menos dos páginas dentro del dashboard. Supongamos que una se llama Page 1 y otra Page 2</li>
+<li>Tener un valor (en alguno de los charts) con la función <code>valueBox()</code>. Supongamos que el valor está en la Page 1</li>
+<li>Supongamos que en Page 2 hay más información acerca de la obtención del valor de la Page 1.</li>
+<li>Añadir a la función <code>valueBox()</code> el parámetro <code>href</code> al que en este ejemplo se le asignará “#page-2”.</li>
+</ol>
+<p>El proceso anterior permitirá que cuando el usuario de click sobre el valor (que aparece en la Page 1), entonces se redirija a la Page 2 para ver más detalles. <em>Nota que la referencia se quitan mayúsculas y los espacios se sustituyen por guines medios.</em></p>
+</div>
+<div id="tablas" class="section level3">
+<h3>Tablas</h3>
+<p>Para poder ver gráficos de manera interactiva, puede ser intersante usar la librería <strong><code>DT</code></strong> que funciona particularmente para data frames.</p>
+<p>Esta librería permite al usuario incluso descargar la información presentada en las tablas, por lo cual sí es una librería bastante amable con el usuario del dashboard.</p>
+<p>En el ejemplo siguiente veremos cómo se usa:</p>
+<pre class="r"><code>#Esta es la librería que necesitamos para poder hacer tablas interactivas
+library(DT)
+
+#Esta es la función que, así como en plotly, permite una tabla interactiva.
+datatable(
+  #Esta es la información que se desea
+  mi_data_frame, 
+  #Este parámetro indica que no se desean los números que siempre aparecen 
+  #por defecto
+  rownames = FALSE,
+  #El argumento etentions permite que el usuario por medio de botones 
+  # (en este caso) tenga acceso a los datos que se muestran en la tabla
+  extensions = &quot;Buttons&quot;,
+  #Con diversas opciones
+  options = list(
+    dom = &quot;Bfrtip&quot;,
+    #Que hasta pueden copiar los datos y descargarlos en estos formatos.
+    buttons = c(&quot;copy&quot;, &quot;csv&quot;, &quot;excel&quot;, &quot;pdf&quot;, &quot;print&quot;)
+  )
+  
+)</code></pre>
+<p>La otra opción aunque es menos ineractiva es el uso de la función <code>kable</code> que de la misma forma le permitirá al usuario ver los datos aunque no pueda tener interacción con los mismos.</p>
+</div>
+<div id="texto" class="section level3">
+<h3>Texto</h3>
+<p>A diferencia de cualquier RMarkdown, en los dashboar conviene añadir texto de una manera padre y eso de hace entro de los charts pero fuera de los chunks que este contiene además de que inician con un signo &gt; y luego un espacio.</p>
+<p>Es probable que el trabajo presentado sea como una historia, es decir que se presente el desarrollo de resultados a lo largo del tiempo (y además se desea todo lo que se ha planificado en el dashboard en otras páginas).</p>
+<p>Para poder desarrollar una historia EN TODO EL DASHBOARD es necesario agregar en el encabezado YAML lo siguiente:</p>
+<p><img src="flexd8.png" width="375" /></p>
+<p>Donde <code>storyboard: true</code> significa que se hará una tipo historia.</p>
+<p>Para poder construir esta historia se usa lo siguiente:</p>
+<p><img src="flexd9..png" /></p>
+<p>Donde lo azul es el título del chart (que contienen los códigos o gráficos, mapas, etc.) y lo negro es la descripcón que se pone al lado del contenido para explicar el mismo.</p>
+<p><img src="flexd10.png" /></p>
+<p>Posiblemente no quiere que todo el Dashboard sea una storyboard, por lo cual podemos hacer lo siguiente:</p>
+<ol style="list-style-type: decimal">
+<li>Dentro de la página que queremos que sea Storyboard podemos añadir en las especificaciones <code>{.storyboard}</code> lo cual hará que tengamos una página que sea storyboard pero el resto será como en la <a href="#estructura-de-un-flexdashboard.">1. Estructura de un flexdashboard.</a></li>
+</ol>
+</div>
+</div>
+<div id="interacción-con-shiny" class="section level2">
+<h2>4. Interacción con Shiny</h2>
+<p>Los dashboards que hemos creado con flexdashboard no soy tan interactivos como una shiny app, sin embargo, podemos hacerlo casi como una shiny app. SOlo hay que cambiar el encabezado YAML:</p>
+<pre><code>---
+title: &quot;Mi primer dashboard&quot;
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+  dowload_code: true
+runtime: shiny
+---</code></pre>
+<p>Empecemos con un ejemplo:</p>
+<pre class="r"><code>library(flexdashboard)
+library(readr)
+library(leaflet)
+library(DT)
+library(tidyverse)
+library(lubridate)
+library(plotly)
+
+options(shiny.sanitize.errors = FALSE)
+
+trips_df &lt;- read_csv(&#39;http://s3.amazonaws.com/assets.datacamp.com/production/course_6961/datasets/sanfran_bikeshare_joined_oneday.csv&#39;) %&gt;%
+  mutate(duration_min = duration_sec / 60)
+
+sf_bbox &lt;- c(-123.0137, 37.6040, -122.3549, 37.8324)
+sj_bbox &lt;- c(-122.0457, 37.1255, -121.5891, 37.4692)
+
+trips_df &lt;- trips_df %&gt;%
+  mutate(city = ifelse((start_latitude &gt;= sf_bbox[2] &amp; start_latitude &lt;= sf_bbox[4]) &amp; (start_longitude &gt;= sf_bbox[1] &amp; start_longitude &lt;= sf_bbox[3]), &#39;San Francisco&#39;, ifelse((start_latitude &gt;= sj_bbox[2] &amp; start_latitude &lt;= sj_bbox[4]) &amp; (start_longitude &gt;= sj_bbox[1] &amp; start_longitude &lt;= sj_bbox[3]), &#39;San Jose&#39;, &#39;Other&#39;)))
+
+Column {data-width=200 .sidebar}
+---------------------------------------------------------------
+
+
+#Esto sirve para definir una opción de botones que sean &quot;All, San Francisco&quot;
+# o San José. 
+
+radioButtons(&quot;origin_location&quot;, label = &quot;Select trip origin region to display:&quot;, choices = c(&#39;All&#39; = &#39;all&#39;, &#39;San Francisco&#39; = &#39;sf&#39;, &#39;San Jose&#39; = &#39;sj&#39;), selected = c(&#39;all&#39;))
+
+#Creamos una reacción que dependa de la elección anterior en los botones
+
+trips &lt;- reactive({
+
+  if(input$origin_location == &#39;sf&#39;) {
+    trips_df &lt;- trips_df %&gt;% filter(city == &#39;San Francisco&#39;)
+  } else if(input$origin_location == &#39;sj&#39;) {
+    trips_df &lt;- trips_df %&gt;% filter(city == &#39;San Jose&#39;)
+  }
+
+  trips_df
+
+})
+
+
+Column {data-width=450}
+-----------------------------------------------------------------------
+
+### Origins
+
+
+# Hacemos el render de un mapa interactivo
+
+renderLeaflet({
+  trips() %&gt;%
+    rename(latitude = start_latitude,
+           longitude = start_longitude) %&gt;%
+    group_by(start_station_id, latitude, longitude) %&gt;%
+    count() %&gt;%
+    leaflet() %&gt;%
+    addTiles() %&gt;%
+    addCircles(radius = ~n)
+})
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Total Trips
+
+
+#Renderizamos la caja de valor que tiene el número de viajes hechos
+
+renderValueBox({
+  valueBox(prettyNum(trips() %&gt;%
+                       nrow(), big.mark = &#39;,&#39;), 
+           icon = &#39;fa-bicycle&#39;)
+})
+
+
+# valueBox(prettyNum(nrow(trips_df), big.mark = &#39;,&#39;), icon = &#39;fa-bicycle&#39;)
+
+### Trips by Start Time
+
+
+# Y por úlimo agregamos un plot interactivo para ver la &quot;distribución de los viajes&quot;
+renderPlot({trips() %&gt;%
+    mutate(hour = hour(start_date)) %&gt;%
+    group_by(hour) %&gt;%
+    summarize(`Trips Started` = n()) %&gt;%
+    ggplot(aes(x = hour, y = `Trips Started`)) +
+    theme_bw() +
+    ylab(&#39;Trips Started \n&#39;) +
+    geom_bar(stat = &#39;identity&#39;) 
+})</code></pre>
+<p>Puedes notar que la forma anterior es un poco más compleja pues necesita de las funciones de shiny para ejercer además que hace una sintáxis similar solo que a diferencia de shiny, flexdashboard no necesita de la definición de un server o de una UI aunque sabemos que todo se está haciendo (todo lo que corresponde hacer en el server) en la UI.</p>
+<p><img src="flexd11.png" /></p>
+<p>Pasos:</p>
+<ol style="list-style-type: decimal">
+<li><p>Crear una columna que tenga el atributo <code>.sidebar</code></p>
+<p><code>Columna reactiva {data-widht=250 .sidebar}</code></p></li>
+<li><p>Añadir inputs en tal olumna dentro de un chunk.</p>
+<p><code>___Input</code></p></li>
+<li><p>Cambiar los “outputs” en términos de los inputs usando <code>reactive</code></p></li>
+<li><p>Renderizar “los outputs” <em>(gráficas, tablas, mapas, …)</em> con <code>render___</code> (y el reactive que depende del input.)</p></li>
+</ol>
+<p>Recordemos que.</p>
+<ul>
+<li><p>El <code>input</code>lo mete el usuario</p></li>
+<li><p>El <code>reactive</code>hace cálculos cada que cambia el input y se guarda en un objeto</p></li>
+<li><p>Podemos <strong>crear objetos</strong> a partir de reactives, pero para mandarlos a llamar hay que usar <code>nombre_del_reactive()</code></p></li>
+<li><p>Para que los objetos se vean en la pantalla del flexdashboard primero los ponemos donde queremos que aparezcan y luego usamos <code>render</code> para que salgan.</p></li>
+</ul>
+<div id="poner-inputs-en-los-charts" class="section level3">
+<h3>Poner inputs en los charts</h3>
+<p>Para poder insertar los inputs no solo en la <code>.sidebar</code> sino también en ciertos charts (donde el output solo cambie con ese input, o inputs) usamos la función <code>fillCol.</code></p>
+<p>Veamos la función y expliqeumosla en el ejemplo:</p>
+<pre class="r"><code>fillCol(
+  height = 600, # Se define la altula de la columna
+  flex(
+    c(NA, # Se dice que la primer entrada de esa columna (en este caso &quot;el
+          # input&quot;) no va a cambiar de sus dimensiones cuando la pantalla
+          # lo haga.
+      1), # Sin embargo, la segunda parte de la columna (&quot;la salida&quot;) sí 
+          # tendrá la flexibilidad total para cambiar sus dimensiones cuando
+          # la pantalla lo haga.
+    
+  sliderInput(...cosasDeInput...), # &lt;- se mete el input que se desea con
+                                   # parámetros correspondientes
+  plotOutput(    # &lt;- Inmediatamente después tenemos que poner el Output
+    &quot;xyzPlot&quot;,   # que en este caso se llama &quot;xyzPlot&quot; y es un tipo Plot
+    height = &quot;100%&quot; # Aquí añadimos que haya la posibilidad de flexibilizar
+    )
+  )
+)
+
+output$xyxPlot &lt;- renderPlot({ggplot(...)}) # Y por último (dentro del mismo
+                                 # chart) se renderiza el plot que se haya 
+                              # creado para generar el output 
+                          # Que como siempre, DEBE TENER EL MISMO NOMBRE
+                        # QUE EL QUE SE PONFA EN EL ____Output</code></pre>
+<p>También podríamos desear que una misma <code>sidebar</code> se vea en cada página del flexdashboard para lo cual el inicio del mismo ponemos lo siguiente:</p>
+<p><img src="flexd12.png" /></p>
+<p>Nota que para hacer una <code>sidebar</code> global, es necesario poner el argumento sobre la página y no sólo sobre una columna de una página. Además tiene que estár al inicio.</p>
+<pre class="r"><code>---
+title: &quot;Bike Shares Daily&quot;
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+runtime: shiny
+---
+
+library(flexdashboard)
+library(readr)
+library(leaflet)
+library(DT)
+library(tidyverse)
+library(lubridate)
+library(plotly)
+
+trips_df &lt;- read_csv(&#39;https://assets.datacamp.com/production/repositories/1448/datasets/1f12031000b09ad096880bceb61f6ca2fd95e2eb/sanfran_bikeshare_joined_oneday.csv&#39;) %&gt;%
+  mutate(duration_min = duration_sec / 60)
+
+Barra laterlal global {.sidebar}
+====================
+
+
+sliderInput(&quot;duration_slider&quot;, label = &quot;Select maximum trip duration to display (in minutes):&quot;,
+            min = 0, max = 120, value = 15, step = 5, dragRange = TRUE)
+
+sliderInput(&quot;duration_bin&quot;, label = &quot;Select # of minutes to bin trip durations:&quot;,
+           min = 1, max = 15, value = 1, step = 1)
+
+show_trips_df &lt;- reactive({
+
+  trips_df %&gt;%
+    filter(duration_sec &lt;= input$duration_slider * 60)
+
+})
+
+Column {data-width=450}
+-----------------------------------------------------------------------
+
+### Origins
+
+
+renderLeaflet({
+  show_trips_df() %&gt;%
+    rename(latitude = start_latitude,
+           longitude = start_longitude) %&gt;%
+    group_by(start_station_id, latitude, longitude) %&gt;%
+    count() %&gt;%
+    leaflet() %&gt;%
+    addTiles() %&gt;%
+    addCircles(radius = ~n)
+})
+
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Total Trips
+
+
+renderValueBox({
+  valueBox(prettyNum(show_trips_df() %&gt;%
+                       nrow(), big.mark = &#39;,&#39;), 
+           icon = &#39;fa-bicycle&#39;)
+})
+
+
+### Trips by Start Time
+
+
+renderPlot({show_trips_df() %&gt;%
+    mutate(hour = hour(start_date)) %&gt;%
+    group_by(hour) %&gt;%
+    summarize(`Trips Started` = n()) %&gt;%
+    ggplot(aes(x = hour, y = `Trips Started`)) +
+    theme_bw() +
+    ylab(&#39;Trips Started \n&#39;) +
+    geom_bar(stat = &#39;identity&#39;) 
+})
+
+
+Duration
+====================
+
+### Trip Durations
+
+
+renderPlot({show_trips_df() %&gt;%
+  mutate(`Trip Duration (min)` = duration_sec / 60) %&gt;%
+  ggplot(aes(x = `Trip Duration (min)`)) +
+  theme_bw() +
+  geom_histogram(binwidth = input$duration_bin) +
+  ylab(&#39;# Trips&#39;)
+})</code></pre>
+</div>
+</div>
+<div id="referencias" class="section level2">
+<h2>Referencias</h2>
+<ul>
+<li><p><a href="https://rmarkdown.rstudio.com/flexdashboard/index.html" class="uri">https://rmarkdown.rstudio.com/flexdashboard/index.html</a></p></li>
+<li><p><a href="https://learn.datacamp.com/" class="uri">https://learn.datacamp.com/</a></p></li>
+</ul>
+</div>
+</div>
+
+   
+   
+              </div>
+  </div>
+  </div>
+  </div>
+   
+      
+
+  <script>
+    $(document).ready(function () {
+
+		// add bootstrap table styles to pandoc tables
+	$('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+		
+ 	 	$('#content img').addClass("image-thumb");
+		
+		$('#content img:not(.no-lightbox)').addClass("image-lb");
+	$('#content').magnificPopup({
+	    type:'image',
+	    closeOnContentClick: false,
+	    closeBtnInside: false,
+	    delegate: '.image-lb',
+	    gallery: {enabled: false },
+	    image: {
+	        verticalFit: true,
+		titleSrc: 'alt'
+	    }
+ 	});
+ 	    });
+  </script>
+
+
+
+    <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+	var script = document.createElement("script");
+	script.type = "text/javascript";
+	script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+	document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+  
+</body>
+</html>

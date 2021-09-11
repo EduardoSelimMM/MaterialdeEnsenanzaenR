@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="pandoc" />
+
+        <meta name="author" content="Carlos A. Ar." />
+    
+    
+    <title>Intro Shiny</title>
+
+        <script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
+        <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="site_libs/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="site_libs/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+        <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+        <script src="site_libs/navigation-1.1/tabsets.js"></script>
+        <link href="site_libs/magnific-popup-1.1.0/magnific-popup.css" rel="stylesheet" />
+        <script src="site_libs/magnific-popup-1.1.0/jquery.magnific-popup.min.js"></script>
+        <link href="site_libs/downcute-0.1/downcute.css" rel="stylesheet" />
+        <link href="site_libs/downcute-0.1/downcute_fonts_embed.css" rel="stylesheet" />
+        <script src="site_libs/downcute-0.1/downcute.js"></script>
+        <script src="site_libs/prism-1.22/prism.js"></script>
+    
+    
+    
+    
+    <!-- tabsets -->
+    <script>
+      $(document).ready(function () {
+	  window.buildTabsets("toc");
+      });
+      $(document).ready(function () {
+	  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+	      $(this).parent().toggleClass('nav-tabs-open')
+	  });
+      });
+    </script>
+
+    <!-- code folding -->
+    
+    <!-- code download -->
+    
+    <!-- tabsets dropdown -->
+
+    <style type="text/css">
+      .tabset-dropdown > .nav-tabs {
+	  display: inline-table;
+	  max-height: 500px;
+	  min-height: 44px;
+	  overflow-y: auto;
+	  background: white;
+	  border: 1px solid #ddd;
+	  border-radius: 4px;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li.active:before {
+	  content: "";
+	  font-family: 'Glyphicons Halflings';
+	  display: inline-block;
+	  padding: 10px;
+	  border-right: 1px solid #ddd;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+	  content: "&#xe258;";
+	  border: none;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+	  content: "";
+	  font-family: 'Glyphicons Halflings';
+	  display: inline-block;
+	  padding: 10px;
+	  border-right: 1px solid #ddd;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li.active {
+	  display: block;
+      }
+
+      .tabset-dropdown > .nav-tabs > li.active a {
+  	  padding: 0 15px !important;
+      }
+
+      .tabset-dropdown > .nav-tabs > li > a,
+      .tabset-dropdown > .nav-tabs > li > a:focus,
+      .tabset-dropdown > .nav-tabs > li > a:hover {
+	  border: none;
+	  display: inline-block;
+	  border-radius: 4px;
+	  background-color: transparent;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+	  display: block;
+	  float: none;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li {
+	  display: none;
+	  margin-left: 0 !important;
+      }
+    </style>
+    
+</head>
+
+<body class="preload">
+
+   	
+               <!-- downcute start -->   
+   <div id="docute" class="Root">
+     <div class="Page layout-narrow">
+      <div class="Wrap">
+        <div class="Sidebar">
+          <div class="SidebarItems" id="toc">
+            <ul>
+            <li><a href="#qué-es-una-shinnyapp">¿Qué es una ShinnyApp?</a></li>
+            <li><a href="#crear-una-shiny-app">Crear una Shiny app</a></li>
+            <li><a href="#partes-de-una-shiny">Partes de una Shiny</a>
+            <ul>
+            <li><a href="#interfás-de-usuario-ui">Interfás de Usuario (ui)</a></li>
+            <li><a href="#servidor-server">Servidor (server)</a></li>
+            <li><a href="#acomodar-la-shiny">Acomodar la Shiny</a></li>
+            <li><a href="#inputs">Inputs</a></li>
+            <li><a href="#outputs">Outputs</a></li>
+            </ul></li>
+            <li><a href="#ejemplos-de-shiny-apps">Ejemplos de shiny apps</a></li>
+            <li><a href="#personalizar-la-shiny">Personalizar la Shiny</a></li>
+            <li><a href="#reactives-de-shiny">Reactives de Shiny</a>
+            <ul>
+            <li><a href="#observes-vs-reactives">Observes vs Reactives</a></li>
+            </ul></li>
+            <li><a href="#ejemplos-de-apps-4">Ejemplos de apps (4)</a>
+            <ul>
+            <li><a href="#añadir-mensajes-de-error.">Añadir mensajes de error.</a></li>
+            </ul></li>
+            </ul>
+          </div>
+          <div data-position="sidebar:post-end" class="InjectedComponents"><div class="dark-theme-toggler"><div class="toggle"><div class="toggle-track"><div class="toggle-track-check"><img  src="data:image/png;base64,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" role="presentation" style="pointer-events: none;" width="16" height="16"></div> <div class="toggle-track-x"><img src="data:image/png;base64,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" role="presentation" style="pointer-events: none;" width="16" height="16"></div></div> <div class="toggle-thumb"></div></div> <input type="checkbox" aria-label="Switch between Dark and Default theme" class="toggler-screen-reader-only"></div></div>
+        </div>
+        <div class="Main">
+          <div class="Content" id="content"> 
+   
+   
+      
+      <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">Material de Consulta</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li>
+        <a href="index.html"></a>
+      </li>
+      <li>
+        <a href="como_funciona.html">Uso del sitio</a>
+      </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Documentación
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="R-Markdown.html">R Markdown</a>
+          </li>
+          <li>
+            <a href="Xaringan-y-Flipbookr.html">Xaringan y Flipbookr</a>
+          </li>
+          <li>
+            <a href="https://carlos-arguello.shinyapps.io/Tutorial_Learnr/">Tutorial Learnr</a>
+          </li>
+          <li>
+            <a href="https://carlos-arguello.shinyapps.io/Introduction_to_R/">Introducción a R</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Git y más
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="Tutorial-de-Git-y-GitHub.html">Git y GitHub</a>
+          </li>
+          <li>
+            <a href="git_lab_kraken.html">GitLab y GitKraken</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Shiny
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="Intro-Shiny.html">Shiny App</a>
+          </li>
+          <li>
+            <a href="Shiny-Dashboards.html">Shiy Dashboard</a>
+          </li>
+          <li>
+            <a href="Flexdashboards.html">Flexdashboard</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Ejemplos
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="Ejemplo-R-Markdown.html">Rmarkdown</a>
+          </li>
+          <li>
+            <a href="primer_flipbookr.html">Flipbookr</a>
+          </li>
+          <li>
+            <a href="primer_flexdashboard.html">Flexdashboard</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+          Material académico
+           
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="https://ciencia-de-datos.netlify.app/">Ciencia de Datos</a>
+          </li>
+          <li>
+            <a href="https://teoria-del-riesgo.netlify.app/">Teoría del riesgo</a>
+          </li>
+        </ul>
+      </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container -->
+      </div><!--/.navbar -->
+        
+      <h1 class="title">Intro Shiny</h1>
+      
+      <p class="authors">
+           <span class="glyphicon glyphicon-user"></span> Carlos A. Ar.
+      </p>
+         <p class="date"><span class="glyphicon glyphicon-calendar"></span> Última edición 06 de septiembre del 2021</p>
+           
+
+   
+      
+   
+<!-- Don't indent these lines or it will mess pre blocks indentation --> 
+<div class="page-content has-page-title">
+<div id="qué-es-una-shinnyapp" class="section level1">
+<h1>¿Qué es una ShinnyApp?</h1>
+<p>Es una aplicación que se genera con ayuda del paquete “Shiny” de R. Estas aplicaciones, como otras, permiten que el usuario interactúe con ella (ingresando algo <strong>inputs</strong>) y teniendo una respuesta (<strong>outputs</strong>).</p>
+<p>Hay que saber que una app solo funciona en caso de que se quiera facilitar el entendimiento de algo, mejorar el análisis de un tema o conocer los datos. Siempre se puede crear una Shiny app, pero antes de todo el show <strong>hay que saber para qué se utilizará.</strong></p>
+<div id="tips" class="section level4">
+<h4>Tips</h4>
+<ul>
+<li><p>Antes de hacer la app con Shiny, dibuja un esquema del resultado final (con todo y títulos).</p></li>
+<li><p>Ten paciencia si no sale todo de un jalón. Ir poco a poco es importante.</p></li>
+</ul>
+</div>
+</div>
+<div id="crear-una-shiny-app" class="section level1">
+<h1>Crear una Shiny app</h1>
+<ol style="list-style-type: decimal">
+<li><p>Instalar shiny con <code>install.package("shiny")</code></p></li>
+<li><p>Cargar la librería <code>library(shiny)</code></p></li>
+<li><p>Generar los siguientes objetos:</p>
+<ul>
+<li><p>ui &lt;- fluidPage() <em>Para tener una “pantalla en blanco de HTML”</em></p></li>
+<li><p>server &lt;- function(input, output, session){} <em>Para ejecutar la entrada y salida de la Shiny</em></p></li>
+</ul></li>
+<li><p>Correr la app con <code>shinyApp(ui = ui, server = server)</code></p></li>
+<li><p><strong>EN RESUMEN:</strong></p></li>
+</ol>
+<!-- -->
+<pre><code>![](shiny5.png){width=&quot;542&quot;}</code></pre>
+<p>Ejemplo:</p>
+<pre class="r"><code>library(shiny)
+ui &lt;- fluidPage(&quot;Hola, mono&quot;)
+server &lt;- function(input, output, session){}
+shinyApp(ui = ui, server = server)</code></pre>
+</div>
+<div id="partes-de-una-shiny" class="section level1">
+<h1>Partes de una Shiny</h1>
+<div id="interfás-de-usuario-ui" class="section level2">
+<h2>Interfás de Usuario (ui)</h2>
+<p>Es la parte con la que el usuario puede interactuar (escrita en código).</p>
+<p>Las posibles cosas que quieras que el usuario vea en tu app son:</p>
+<ul>
+<li><p>Título. Esto se hace con el comando <code>titlePanel("Mi título")</code> dentro de la función <code>fluidPage()</code></p></li>
+<li><p>Input (dónde moverle). Existen muchas opciones que se verán con detalle en <a href="#inputs">Inputs</a>.</p></li>
+<li><p>Output (el resultado de lo que le moví). Al igual que lo anterior, veremos que hay muchas posibles salidas <em>según tengamos interés.</em> Estas posibilidades se encuentran en el apartado de <a href="#outputs">Outputs</a></p></li>
+</ul>
+</div>
+<div id="servidor-server" class="section level2">
+<h2>Servidor (server)</h2>
+<p>Es lo que se va a manipular de la interacción del usuario con la app (para que se generen los outputs requeridos). Es como “detrás del telón”.</p>
+</div>
+<div id="acomodar-la-shiny" class="section level2">
+<h2>Acomodar la Shiny</h2>
+<p>Las funciones de Layout cumplen el objetivo de ordentar las entradas o salidas de la app en las diversas posibilidades.</p>
+<pre><code>sidebarLayout(
+  titlePanel(&quot;Nombre de la app&quot;),
+  sidebarPanel(p(&quot;Lo que está adentro de aquí va a la izquierda&quot;)),
+  mainPanel(p(&quot;lo que esté dentro de este panel irá a la derecha&quot;))
+)</code></pre>
+</div>
+<div id="inputs" class="section level2">
+<h2>Inputs</h2>
+<div id="crear-inputs" class="section level3">
+<h3>Crear inputs</h3>
+<ol style="list-style-type: decimal">
+<li>Agregar una función de input (<a href="#clasificación.">Clasificación.</a>) en la interfás de usuario (UI).</li>
+<li>Agregar su valor en el servidor (server) con input$x donde x es el identificador del input del paso 1.</li>
+</ol>
+<p>En resumen se pueden clasificar así:</p>
+</div>
+<div id="clasificación." class="section level3">
+<h3>Clasificación.</h3>
+<ul>
+<li><p><strong>texto</strong> (<code>textInput</code>, <code>selectInput</code>)</p></li>
+<li><p><strong>números</strong> (<code>numericInput</code>, <code>sliderInput</code>)</p></li>
+<li><p><strong>verdadero/falso</strong> (<code>checkBoxInput</code>, <code>radioInput</code>)</p></li>
+<li><p><strong>días</strong> (<code>dateInput</code>, <code>dateRangeInput</code>)</p></li>
+</ul>
+<p>Existen varias funciones que permiten que el usuario interactúe con la app (que el contexto shiny, se puede colocar dentro de la función <code>fluidPage</code>:</p>
+<ul>
+<li><p><code>textInput("identificador", "El texto previo a que ingrese el valor")</code>es una función que permite que el usuario (de la app) ingrese texto en un campo.</p>
+<p>El identificador será para que de manera interna, shiny pueda manejar el dato que el usuario ingresa. Se usa en <a href="#crear-outputs">crear outputs</a>.</p></li>
+<li><p><code>sliderInput</code>: para seleccionar por ejemplo un año en una línea del tiempo</p>
+<p><img src="shiny1.png" width="284" /></p>
+<pre><code>sliderInput(&quot;inputId&quot;,
+            &quot;laber&quot;,
+             value = 1925,
+             min = 1900,
+             max = 2000)</code></pre></li>
+<li><p><code>selectInput</code>: para seleccionar opciones de un menú de opciones</p>
+<p><img src="shiny2.png" width="326" /></p>
+<pre><code>selectInput(&quot;inputId&quot;,
+            &quot;laber&quot;,
+            choices = c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;) )</code></pre></li>
+<li><p><code>numericalInput</code>: seleccionar un número de un rango pero a partir de flechitas</p>
+<p><img src="shiny3.png" width="356" /></p></li>
+<li><p><code>dateRangeInput</code>: permite seleccionar alguna fecha del calendario.</p>
+<p><img src="shiny4.png" width="277" /></p></li>
+</ul>
+</div>
+</div>
+<div id="outputs" class="section level2">
+<h2>Outputs</h2>
+<div id="crear-outputs" class="section level3" data-link="crear outputs">
+<h3 data-link="crear outputs">Crear outputs</h3>
+<ol style="list-style-type: decimal">
+<li>Crear la salida (gráfica, tabla, texto, etc.) <strong>en el server.</strong></li>
+<li>Renderiza el objeto de output usando la fucnión <code>render__</code> apropiada <strong>en el server.</strong></li>
+<li>Asigna al objeto renderizado un nombre “x” <strong>en el server</strong> <code>(output$x &lt;- ...)</code></li>
+<li>Añade la salida <strong>a la interfas de usuario</strong> con la función <code>___Output</code> conveniente (según lo que hayas creado).</li>
+</ol>
+<p>Como en los diferentes tipos de inputs para la app, también hay diferentes salidas, resultados o outputs que se pueden mostrar al usuario que interactúa (que el contexto shiny, toman el lugar de <code>output</code>dentro de <code>function</code>):</p>
+<ul>
+<li><code>textOutput("nombre del output que se creó en function")</code></li>
+</ul>
+<p>Las siguientes son funciones tipo render, las cuales consisten en agarrar un input y convertir los valores para tener un tipo de salida específica. Estas funciones <strong>van dentro del server.</strong></p>
+<ul>
+<li><code>renderTable()</code></li>
+<li><code>renderImage()</code></li>
+<li><code>renderPlot()</code></li>
+</ul>
+<p>Según la función de render que se usó para generar el output, se pueden considerar las siguientes funciones <strong>dentro de la interfas con el usuario (UI).</strong></p>
+<ul>
+<li><p><code>tableOutput()</code> o <code>dataTableOutput()</code></p></li>
+<li><p><code>imageOutput()</code></p></li>
+<li><p><code>plotOutput()</code></p></li>
+</ul>
+<p>Existen <strong>otras funciones de render</strong> que no son de Shiny, sino de otros paquetes como: <strong>DT</strong> (<em>para hacer tablas interactivas</em>), <strong>leaflet</strong> <em>(mapas interactivos)</em> y <strong>plotly</strong> <em>(gráficos interactivos)</em>.</p>
+<div id="usar-dt" class="section level4">
+<h4>Usar DT</h4>
+<ol style="list-style-type: decimal">
+<li>Crear una tabla interactiva con <code>DT::datatable()</code> <strong>en el server</strong></li>
+<li>Renderiza la tabla con <code>DT::renderDT()</code> <strong>en el server</strong></li>
+<li>Enseña la salida de la tabla con <code>DT::DTOutput()</code> <strong>en la UI</strong></li>
+</ol>
+<p>Estas funciones permiten conocer las diferentes formas en las que se genera un output (en <code>function</code>) que se puede mandar a llamar en la función <code>fluidPage.</code></p>
+<p><code>renderText({  paste("Lo que ingresa el usuario:", input$identificador, "se pone en pantalla.")  })</code></p>
+</div>
+</div>
+</div>
+</div>
+<div id="ejemplos-de-shiny-apps" class="section level1">
+<h1>Ejemplos de shiny apps</h1>
+<ol style="list-style-type: decimal">
+<li>Hacer una pregunta <em>sin respuesta</em></li>
+</ol>
+<pre class="r"><code>ui &lt;- fluidPage(
+  textInput(&quot;nombre&quot;, &quot;Ingresa un nombre:&quot;),
+  textOutput(&quot;pregunta&quot;)
+)
+
+server &lt;- function(input, output){
+  output$pregunta &lt;- renderText({
+    paste(&quot;¿Te gustaría aprender Shiny,&quot;, input$nombre,&quot;?&quot;)
+  })
+}
+
+shinyApp(ui = ui, server = server)</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Poner un nombre y que me regrese un gráfico</li>
+</ol>
+<pre class="r"><code>ui &lt;- fluidPage( #Lo que le aparecerá al usuario
+  
+  titlePanel(&quot;¿Qué tan famoso es tu nombre?&quot;), #Título de la app
+
+  sidebarLayout(  #Abajo del título qué hacemos
+    
+    sidebarPanel( #Dónde se coloca el texto
+      textInput(&quot;nombre&quot;, &quot;Ingresa tu nombre&quot;, &quot;David&quot;)
+    ),
+    
+    mainPanel( #Dónde se coloca el plot
+      plotOutput(&quot;tendencia&quot;)
+    )
+  )
+)
+
+server &lt;- function(input, output){
+  
+  output$tendencia &lt;- renderPlot({ #Creamos un output que se llame tendencia
+  
+    data_name &lt;- subset(babynames, name == input$nombre) #elegimos los datos
+                                                        #según el input
+    ggplot(data_name)+
+      geom_line(aes(x = year, y = prop, color = sex))  #generamos el gráfico
+                                                      #que será el output
+  })
+}
+
+shinyApp(ui = ui, server = server)</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Dar opciones de respuesta a una pregunta.</li>
+</ol>
+<pre class="r"><code>ui &lt;- fluidPage( #Lo que le aparecerá al usuario
+  textInput(&quot;nombre&quot;, &quot;Escribe tu nombre&quot;),
+  selectInput(&quot;animal&quot;, &quot;¿Perros o gatos?&quot;, choices = c(&quot;perros&quot;, &quot;gatos&quot;)),
+  textOutput(&quot;idText&quot;),
+  textOutput(&quot;idRespuesta&quot;)
+)
+
+server &lt;- function(input, output, session){
+    output$idText &lt;- renderText({
+      paste(&quot;¿Prefieres perros o gatos,&quot;, input$nombre, &quot;?&quot;)
+    })
+    output$idRespuesta &lt;- renderText({
+      paste(&quot;¡Prefiero a los,&quot;, input$animal, &quot;!&quot;)
+    })
+}
+
+shinyApp(ui = ui, server = server)</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Top 10 de nombres</li>
+</ol>
+<pre class="r"><code>ui &lt;- fluidPage(
+  titlePanel(&quot;¿Cuál nombre es más famoso?&quot;),
+  selectInput(&#39;sexo&#39;, &#39;Selecciona el sexo&#39;, choices = c(&quot;F&quot;, &quot;M&quot;)),
+  sliderInput(&quot;ano&quot;, &quot;Elige el año&quot;,value = 1900, min = 1900, max = 2010),
+  plotOutput(&#39;plot_top_10&#39;),
+  DT::DTOutput(&quot;table_top_10_names&quot;)
+)
+
+server &lt;- function(input, output, session){
+  output$plot_top_10 &lt;- renderPlot({
+    top_10_names &lt;- babynames %&gt;% 
+      filter(sex == input$sexo) %&gt;% 
+      filter(year == input$ano) %&gt;% 
+      top_n(10, prop)
+      ggplot(top_10_names, aes(x = name, y = prop)) +
+        geom_col(fill = &quot;#263e63&quot;)
+  })
+  top_10_names &lt;- function(){
+    top_10_names &lt;- babynames %&gt;% 
+      filter(sex == input$sex) %&gt;% 
+      filter(year == input$year) %&gt;% 
+      top_n(10, prop)}
+  output$table_top_10_names &lt;- DT::renderDT({top_10_names()})
+}
+
+shinyApp(ui = ui, server = server)</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>Con Tablas interactivas (<strong>DT</strong>)</li>
+</ol>
+<pre class="r"><code>ui &lt;- fluidPage(
+  DT::DTOutput(&quot;babynames_table&quot;)
+)
+
+server &lt;- function(input, output){
+  output$babynames_table &lt;- DT::renderDT({
+    babynames %&gt;%
+      dplyr::sample_frac(.1)
+  })
+}
+
+shinyApp(ui = ui, server = server)</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li>Plot Interactivo</li>
+</ol>
+<pre class="r"><code>ui &lt;- fluidPage(
+  selectInput(&#39;name&#39;, &#39;Select Name&#39;, head(unique(babynames$name)), 10), 
+  plotly::plotlyOutput(&#39;plot_trendy_names&#39;)
+)
+
+server &lt;- function(input, output, session){
+  plot_trends &lt;- function(){
+     babynames %&gt;% 
+      filter(name == input$name) %&gt;% 
+      ggplot(aes(x = year, y = n)) +
+      geom_col()}
+  
+  output$plot_trendy_names &lt;- plotly::renderPlotly({
+    plot_trends()
+  })
+}
+
+
+
+shinyApp(ui = ui, server = server)</code></pre>
+</div>
+<div id="personalizar-la-shiny" class="section level1">
+<h1>Personalizar la Shiny</h1>
+<p>Para poner dentro de una app varias pesatañas (con diversos histogramas, por ejemplo) y además cambiar el tema de la app.</p>
+<div id="tema" class="section level3">
+<h3>Tema</h3>
+<ul>
+<li><p><code>shinythemes::themeSelector()</code> dentro de <code>fluidPage</code> (como un parámetro).</p></li>
+<li><p>Si uno sabe qué tema quiere para su app, puede añadirlo de manera definitiva como: <code>theme = shinythemes::shinytheme("nombre_del_tema")</code> dentro de la función <code>fluidPage</code>.</p>
+<p><em>Generalmente este parámetro se pone después del título del panel (titlePanel) y antes de SidebarLayout.</em></p></li>
+</ul>
+</div>
+<div id="añadir-pestañas" class="section level3">
+<h3>Añadir pestañas</h3>
+<p>Dentro de la interfás de usuario (<code>fluidPage -&gt; sidebarLayout -&gt; mainPanel</code>)</p>
+<pre><code>...
+mainPanel(
+  
+    tabsetPanel(
+      tabPanel(&quot;Primer panel&quot;, plotOutput(&quot;id_output_1&quot;))
+      tabPanel(&quot;Segundo panel&quot;, plotOutput(&quot;id_output_2&quot;))
+    )
+  
+)
+...</code></pre>
+</div>
+<div id="ejemplos" class="section level3">
+<h3>Ejemplos</h3>
+<ol style="list-style-type: decimal">
+<li>Una Shiny más bonita</li>
+</ol>
+<pre class="r"><code>set.seed(111)
+
+ui &lt;- fluidPage(
+  titlePanel(&quot;Histogramas de diversas distribuciones&quot;),
+  theme = shinythemes::shinytheme(&quot;flatly&quot;),
+  sidebarLayout(
+    sidebarPanel(sliderInput(&quot;cortes&quot;, &quot;# Cortes&quot;, min = 0, max = 100, value = 30),
+                 selectInput(&quot;n&quot;, &quot;Tamaño de la muestra&quot;, choices = seq(0, 1000, by = 100) )
+                 ),
+    mainPanel(
+      tabsetPanel(
+        tabPanel(&quot;Normal&quot;, plotly::plotlyOutput(&quot;h_normal&quot;)),   #Pestaña 1
+        tabPanel(&quot;Exponencial&quot;, plotly::plotlyOutput(&quot;h_exp&quot;)), #Pestaña 2
+        tabPanel(&quot;Gamma&quot;, plotly::plotlyOutput(&quot;h_gam&quot;)),       #Pestaña 3
+        tabPanel(&quot;Poisson&quot;, plotly::plotlyOutput(&quot;h_pois&quot;))     #Pestaña 4
+      )
+    )
+  )
+)
+
+server &lt;- function(input, output, session){
+  output$h_normal &lt;- plotly::renderPlotly({
+    ggplot(data.frame(rnorm(input$n)), aes(x = rnorm(input$n))) + geom_histogram(bins = input$cortes, fill = &quot;orange&quot;) + theme_minimal()
+  })
+  
+  output$h_exp &lt;- plotly::renderPlotly({
+    ggplot(data.frame(rexp(input$n, 4)), aes(x = rexp(input$n, 4))) + geom_histogram(bins = input$cortes, fill = &quot;pink&quot;) + theme_minimal()
+  })
+  
+  output$h_gam &lt;- plotly::renderPlotly({
+    ggplot(data.frame(rgamma(input$n, 3, 4)), aes(x = rgamma(input$n, 3, 4))) + geom_histogram(bins = input$cortes, fill = &quot;green&quot;) + theme_minimal()
+  })
+  
+  output$h_pois &lt;- plotly::renderPlotly({
+    ggplot(data.frame(rpois(input$n, 2)), aes(x = rpois(input$n, 2))) + geom_histogram(bins = input$cortes, fill = &quot;yellow&quot;) + theme_minimal()
+  })
+}
+
+shinyApp(ui = ui, server = server)</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Una shiny bonita</li>
+</ol>
+<pre class="r"><code>#El UI o interfas con el usuario es &quot;La shiny&quot; en el sentido que es lo único que ve y toca el usuario. Por eso aquí es donde debemos hacer que se vea bonito.
+
+ui &lt;- fluidPage( # Lo que esté aquí se verá por el usuario
+  titlePanel(&quot;Nombres más famosos de la historia&quot;),
+  sidebarLayout( # Permite dividir la pantalla en dos lados
+    sidebarPanel(# Aquí irán cosas _en la izquierda_
+    selectInput(&#39;name&#39;, &#39;Select Name&#39;,head(unique(babynames$name)), 15)),
+    # El Input tipo select es lo que el usuario &quot;elige&quot; dentro de las opc.
+    mainPanel(  # Aquí irán las cosas de la derecha 
+     tabsetPanel( #Para hacer pestañas dentro del lado derecho
+      #Primer pestaña
+      tabPanel(&quot;Histograma&quot;,plotly::plotlyOutput(&#39;plot_trendy_names&#39;)),
+      #Segunda pestaña
+      tabPanel(&quot;Información&quot;,DT::DTOutput(&#39;table_trendy_names&#39;))
+     )
+    )
+  )
+)
+
+#Digamos que el server es para mover lo que el usuario le pique y dar 
+#una salida según la entrada
+server &lt;- function(input, output, session){
+    #Función auxiliar para manejar más rápido el input
+      plot_trends &lt;- function(){
+         babynames %&gt;% 
+          filter(name == input$name) %&gt;% 
+          ggplot(aes(x = year, y = n)) +
+          geom_col()
+      }
+  #Siempre aparecen los outputs$NOMBRE_OUTPUT que vienen 
+      #renderizados (con algú tipo de render)
+  output$plot_trendy_names &lt;- plotly::renderPlotly({
+    plot_trends()
+  })
+  
+  #Este es el otro output
+  output$table_trendy_names &lt;- DT::renderDT({
+    babynames %&gt;% 
+      filter(name == input$name)
+  })
+}
+
+shinyApp(ui = ui, server = server)</code></pre>
+</div>
+</div>
+<div id="reactives-de-shiny" class="section level1">
+<h1>Reactives de Shiny</h1>
+<p>Se refiere a la forma en que la app reacciona (ante por ejemplo inputs del usuario pero dentro del código)</p>
+<p>Hay dos tipos de reactividad en Shiny:</p>
+<ol style="list-style-type: decimal">
+<li>Reactive source: input que viene del usuario por medio de la app</li>
+<li>Reactive endpoints: lo que aparece en la ventana: plot, table, etc.</li>
+<li>Reactive: conductor: dependen de uno o muchos reactive sources, adermás de que es una dependencia de uno o más reactive endpoints.</li>
+</ol>
+<p><img src="shiny7.png" /></p>
+<p>Si tenemos dos veces el mismo código, se correrá dos veces… no queremos tener código de más porque eso implica una pérdida de eficiencia. La manera de solucionar la “necesidad de” duplicar código es con las <strong>reacciones</strong> que permiten ejecutar una acción repetiva y encamminarla a los outputs que requieran de esta tarea:</p>
+<p><img src="shiny6.png" /></p>
+<p>Una <strong>reactive expression</strong> es como una función pero con dos diferencias principales:</p>
+<ol style="list-style-type: decimal">
+<li>Es floja: solo se evalúa cuando una reactiveenpoint lo necesita.</li>
+<li>Es en caché, es decir que solo se evalúa cuando uno de los valores dentro del reactive sentenciado cambia.</li>
+</ol>
+<div id="ejemplos-1" class="section level3">
+<h3>Ejemplos:</h3>
+<pre class="r"><code>server &lt;- function(input, output, session) {
+  rval_bmi &lt;- reactive({
+    input$weight/(input$height^2)
+  })
+  
+  output$bmi &lt;- renderText({
+    paste(&quot;Your BMI is&quot;, round(rval_bmi(), 1))
+  })
+  output$bmi_range &lt;- renderText({
+      bmi_status &lt;- cut(rval_bmi(), 
+      breaks = c(0, 18.5, 24.9, 29.9, 40),
+      labels = c(&#39;underweight&#39;, &#39;healthy&#39;, &#39;overweight&#39;, &#39;obese&#39;)
+    )
+    paste(&quot;You are&quot;, bmi_status)
+  })
+}
+ui &lt;- fluidPage(
+  titlePanel(&#39;BMI Calculator&#39;),
+  sidebarLayout(
+    sidebarPanel(
+      numericInput(&#39;height&#39;, &#39;Enter your height in meters&#39;, 1.5, 1, 2),
+      numericInput(&#39;weight&#39;, &#39;Enter your weight in Kilograms&#39;, 60, 45, 120)
+    ),
+    mainPanel(
+      textOutput(&quot;bmi&quot;),
+      textOutput(&quot;bmi_range&quot;)
+    )
+  )
+)
+
+shinyApp(ui = ui, server = server)</code></pre>
+<p>Podemos hacer un reactive con otro reactive:</p>
+<pre class="r"><code>server &lt;- function(input, output, session) {
+  rval_bmi &lt;- reactive({
+    input$weight/(input$height^2)
+  })
+  # CODE BELOW: Add a reactive expression rval_bmi_status to 
+  # return health status as underweight etc. based on inputs
+  rval_bmi_status &lt;- reactive({cut(rval_bmi(), 
+      breaks = c(0, 18.5, 24.9, 29.9, 40),
+      labels = c(&#39;underweight&#39;, &#39;healthy&#39;, &#39;overweight&#39;, &#39;obese&#39;)
+    )
+  })
+    
+  output$bmi &lt;- renderText({
+    bmi &lt;- rval_bmi()
+    paste(&quot;Your BMI is&quot;, round(bmi, 1), &quot;You are&quot;, rval_bmi_status())
+  })
+  output$bmi_status &lt;- renderText({
+    # MODIFY CODE BELOW: Replace right-hand-side with 
+    # reactive expression rval_bmi_status
+   rval_bmi_status()
+  })
+}
+ui &lt;- fluidPage(
+  titlePanel(&#39;BMI Calculator&#39;),
+  sidebarLayout(
+    sidebarPanel(
+      numericInput(&#39;height&#39;, &#39;Enter your height in meters&#39;, 1.5, 1, 2),
+      numericInput(&#39;weight&#39;, &#39;Enter your weight in Kilograms&#39;, 60, 45, 120)
+    ),
+    mainPanel(
+      textOutput(&quot;bmi&quot;),
+      textOutput(&quot;bmi_status&quot;)
+    )
+  )
+)
+
+shinyApp(ui = ui, server = server)</code></pre>
+</div>
+<div id="observes-vs-reactives" class="section level2">
+<h2>Observes vs Reactives</h2>
+<p>Primero definamos que uuna observe u observación es una forma de dar a conocer algo al usuario de la app pero que no es parte del progrmaa en sí mismo. Por ejemplo se puede observar una notificación después de que el usuario ingrese su nombre:</p>
+<pre class="r"><code>ui &lt;- fluidPage(
+  textInput(&quot;nombre&quot;, &quot;Por amor, escribe tu nombre&quot;)
+)
+
+server &lt;- function(input, output, session){
+  observe({
+    showNotification(
+      paste(&quot;Bienvenuti a la app de Shiny,&quot;, input$nombre)
+    )
+  })
+}
+shinyApp(ui = ui, server = server)</code></pre>
+<p>Por ende ya podemos deducir las diferencias.</p>
+<table>
+<caption>Diferencias entre Observes and Reactive expressions</caption>
+<thead>
+<tr class="header">
+<th align="left">Acción</th>
+<th align="center">Reactive Expressions</th>
+<th align="center">Observes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Regresar valores</td>
+<td align="center">Sí</td>
+<td align="center">No</td>
+</tr>
+<tr class="even">
+<td align="left">Evaluar los cambios</td>
+<td align="center">No (siempre)</td>
+<td align="center">Sí (siempre)</td>
+</tr>
+<tr class="odd">
+<td align="left">Efectos “secundarios”</td>
+<td align="center">No</td>
+<td align="center">Sí</td>
+</tr>
+</tbody>
+</table>
+<p><img src="shiny8.png" /></p>
+<div id="demorar-detener-desencadenar" class="section level3">
+<h3>Demorar-Detener-Desencadenar</h3>
+<p>Notemos que hasta ahora, hacer cambios en la app, como seleccionar el año, o los cortes en un histograma, generan los cambios de manera automática lo que puede hacer lenta la forma de implementar la aplicación.</p>
+<div id="detener" class="section level5">
+<h5>Detener</h5>
+<p>Si existiriera la forma de detener el proceso instantane hasta que algo más pasara… <strong>SÍ EXISTE.</strong> Una forma de demorar, detener o desencadenar procesos es con la ayuda de la función <code>isolate</code> que toma por entrada inputs (<code>input$id_input</code>).</p>
+<pre><code>server &lt;- function(input, output, session){
+  output$saludo &lt;- renderText({
+    paste(
+      isolate({input$tipo_saludo}), input$name, sep = &quot; ,&quot; 
+    )
+  })
+}</code></pre>
+<p>Lo que implica el uso de la función isolate es: Se verán los outputs en el UI solo después de que se cambie el input que entra a la función.</p>
+<p>En el contexto de la Shiny, dado que este aletargamiento de la ejecución del código no es parte de lo que el usuario puede controlar, se programa en el server. (ver ejemplo inmediato siguiente).</p>
+<p>Podemos hacer diferentes formas de retrasar la visualización de resultados en la interfás con el usuario. Por ejemplo: queremos que se presente la edad de la persona solo después de que se hayan cambiado los valores: día, mes y año.</p>
+</div>
+<div id="demorar" class="section level5">
+<h5>Demorar</h5>
+<p>Lo anterior se puede implementar con el uso de un botón. Este botón permitirá que la la persona decida ver el resultado solo cuando haya cambiato todos los parámetros que desea (y así no programar cada ejecución de forma exaustiva). Con la función <code>eventReactive({})</code></p>
+<pre><code> server &lt;- function(input, output, session){
+  rv_saludo &lt;- eventReactive(input$muestra_saludo,{
+    paste(&quot;Hola&quot;, input$name)
+  })
+  output$saludo &lt;- renderText({
+    rv_saludo()
+  })
+}</code></pre>
+<p>Notemos que la diferencia es que para un botón es necesario un tipo de reacción Event (<code>reactiveEvent</code>), mientras que para desencadenar (un resultado sin que el usuario decida) se tiene que usar la fucnión <code>isolate.</code></p>
+</div>
+<div id="desencadenar" class="section level5">
+<h5>Desencadenar</h5>
+<p>Posiblemente se desee que al apretar un botón, no necesariamente se haga un cambio en la app, pero se de un aviso, es decir, desencadenar acciones a partir de un botón. Esto se hace con una forma análoga a la anterior pero con la función <code>observeEvent</code></p>
+<pre><code> server &lt;- function(input, output, session){
+  observeEvent(input$muestra_saludo,{
+    showModal(modalDialog(paste(&quot;Hola&quot;, input$name)))
+  })
+}</code></pre>
+<p>El modal funciona para dar la oportunidad al usuario de quitar el botón.</p>
+<p>La función <code>observeEvent()</code> permite incluso hacer que el usuario descargue un archivo de tu app. Requiere de dos argumentos: el evento al que responderá y la función a la que se le llamará cuando el evento ocurra.</p>
+<div id="ejemplos-2" class="section level6">
+<h6>Ejemplos:</h6>
+<ol style="list-style-type: decimal">
+<li>Detener</li>
+</ol>
+<pre class="r"><code>ui &lt;- fluidPage(
+  titlePanel(&#39;BMI Calculator&#39;),
+  sidebarLayout(
+    sidebarPanel(
+      textInput(&#39;name&#39;, &#39;Enter your name&#39;),
+      numericInput(&#39;height&#39;, &#39;Enter your height (in m)&#39;, 1.5, 1, 2, step = 0.1),
+      numericInput(&#39;weight&#39;, &#39;Enter your weight (in Kg)&#39;, 60, 45, 120)
+    ),
+    mainPanel(
+      textOutput(&quot;bmi&quot;)
+    )
+  )
+)
+
+server &lt;- function(input, output, session) {
+  rval_bmi &lt;- reactive({
+    input$weight/(input$height^2)
+  })
+  output$bmi &lt;- renderText({
+    bmi &lt;- rval_bmi()
+    paste(&quot;Hi&quot;, isolate({input$name}), &quot;. Your BMI is&quot;, round(bmi, 1))
+  })
+}
+
+shinyApp(ui = ui, server = server)</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Demorar: usando un botón</p>
+<pre class="r"><code>server &lt;- function(input, output, session) {
+
+
+  rval_bmi &lt;- eventReactive(input$show_bmi, { #EL PRIMER PARÁMETRO DE 
+    #eventReactive es el input con el que se accionará algo. 
+    input$weight/(input$height^2)
+  })
+  output$bmi &lt;- renderText({
+    bmi &lt;- rval_bmi()
+    paste(&quot;Hi&quot;, input$name, &quot;. Your BMI is&quot;, round(bmi, 1))
+  })
+}
+
+ui &lt;- fluidPage(
+  titlePanel(&#39;BMI Calculator&#39;),
+  sidebarLayout(
+    sidebarPanel(
+      textInput(&#39;name&#39;, &#39;Enter your name&#39;),
+      numericInput(&#39;height&#39;, &#39;Enter height (in m)&#39;, 1.5,1,2, step = 0.1),
+      numericInput(&#39;weight&#39;, &#39;Enter weight (in Kg)&#39;, 60, 45, 120),
+
+      actionButton(&quot;show_bmi&quot;, &quot;Show BMI&quot;) #AQUÍ SE CREA EL BOTÓN
+
+    ),
+    mainPanel(
+      textOutput(&quot;bmi&quot;)
+    )
+  )
+)
+
+shinyApp(ui = ui, server = server)</code></pre></li>
+<li><p>Demorar: usando dos botones (react y observe)</p></li>
+</ol>
+<pre class="r"><code>bmi_help_text &lt;- &quot;Body Mass Index is a simple calculation using a person&#39;s height and weight. The formula is BMI = kg/m2 where kg is a person&#39;s weight in kilograms and m2 is their height in metres squared. A BMI of 25.0 or more is overweight, while the healthy range is 18.5 to 24.9.&quot;
+
+server &lt;- function(input, output, session) {
+  # MODIFY CODE BELOW: Wrap in observeEvent() so the help text 
+  # is displayed when a user clicks on the Help button.
+  observeEvent(input$show_help, {
+     # Display a modal dialog with bmi_help_text
+     # MODIFY CODE BELOW: Uncomment code
+     showModal(modalDialog(bmi_help_text))
+  })
+  rv_bmi &lt;- eventReactive(input$show_bmi, {
+    input$weight/(input$height^2)
+  })
+  output$bmi &lt;- renderText({
+    bmi &lt;- rv_bmi()
+    paste(&quot;Hi&quot;, input$name, &quot;. Your BMI is&quot;, round(bmi, 1))
+  })
+}
+
+ui &lt;- fluidPage(
+  titlePanel(&#39;BMI Calculator&#39;),
+  sidebarLayout(
+    sidebarPanel(
+      textInput(&#39;name&#39;, &#39;Enter your name&#39;),
+      numericInput(&#39;height&#39;, &#39;Enter your height in meters&#39;, 1.5, 1, 2),
+      numericInput(&#39;weight&#39;, &#39;Enter your weight in Kilograms&#39;, 60, 45, 120),
+      actionButton(&quot;show_bmi&quot;, &quot;Show BMI&quot;),
+      # CODE BELOW: Add an action button named &quot;show_help&quot;
+      actionButton(&quot;show_help&quot;, &quot;Help&quot;)
+    ),
+    mainPanel(
+      textOutput(&quot;bmi&quot;)
+    )
+  )
+)
+
+shinyApp(ui = ui, server = server)</code></pre>
+<pre class="r"><code>server &lt;- function(input, output, session) {
+ 
+  rval_height_cm &lt;- eventReactive(input$show_height_cm, {
+    input$height * 2.54
+  })
+  
+  output$height_cm &lt;- renderText({
+    height_cm &lt;- rval_height_cm()
+        paste(&quot;Your height in centimeters is&quot;, height_cm, &quot;cm&quot;)
+    })
+}
+
+ui &lt;- fluidPage(
+  titlePanel(&quot;Inches to Centimeters Conversion&quot;),
+  sidebarLayout(
+    sidebarPanel(
+      numericInput(&quot;height&quot;, &quot;Height (in)&quot;, 60),
+      actionButton(&quot;show_height_cm&quot;, &quot;Show height in cm&quot;)
+    ),
+    mainPanel(
+      textOutput(&quot;height_cm&quot;)
+    )
+  )
+)
+
+shinyApp(ui = ui, server = server)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="ejemplos-de-apps-4" class="section level1">
+<h1>Ejemplos de apps (4)</h1>
+<div id="aliens" class="section level3">
+<h3>1. Aliens</h3>
+<pre class="r"><code>#Información de los avistamientos de aliens
+
+#NO se cuenta con la información de usa_ufo_sightings
+
+#Así que no se correrá esta app
+
+ui &lt;- fluidPage(
+  titlePanel(&quot;UFO Sightings&quot;),
+  sidebarPanel(
+    selectInput(&quot;state&quot;, &quot;Choose a U.S. state:&quot;, choices = unique(usa_ufo_sightings$state)),
+    dateRangeInput(&quot;dates&quot;, &quot;Choose a date range:&quot;,
+      start = &quot;1920-01-01&quot;,
+      end = &quot;1950-01-01&quot;
+    )
+  ),
+  mainPanel(
+    tabsetPanel(
+      tabPanel(
+        &quot;Plot&quot;, plotOutput(&quot;shapes&quot;)
+      ),
+      tabPanel(
+        &quot;Table&quot;, tableOutput(&quot;duration_table&quot;)
+      )
+    )
+  )
+)
+
+server &lt;- function(input, output) {
+  output$shapes &lt;- renderPlot({
+    usa_ufo_sightings %&gt;%
+      filter(
+        state == input$state,
+        date_sighted &gt;= input$dates[1],
+        date_sighted &lt;= input$dates[2]
+      ) %&gt;%
+      ggplot(aes(shape)) +
+      geom_bar() +
+      labs(
+        x = &quot;Shape&quot;,
+        y = &quot;# Sighted&quot;
+      )
+  })
+
+  output$duration_table &lt;- renderTable({
+    usa_ufo_sightings %&gt;%
+      filter(
+        state == input$state,
+        date_sighted &gt;= input$dates[1],
+        date_sighted &lt;= input$dates[2]
+      ) %&gt;%
+      group_by(shape) %&gt;%
+      summarize(
+        nb_sighted = n(),
+        avg_duration_min = mean(duration_sec) / 60,
+        median_duration_min = median(duration_sec) / 60,
+        min_duration_min = min(duration_sec) / 60,
+        max_duration_min = max(duration_sec) / 60
+      )
+  })
+}
+
+shinyApp(ui, server)</code></pre>
+</div>
+<div id="encuesta-sobre-salud-mental-en-tecnología" class="section level3">
+<h3>2. Encuesta sobre salud mental en Tecnología</h3>
+<pre class="r"><code>server &lt;- function(input, output, session) {
+  output$age &lt;- renderPlot({
+    # MODIFY CODE BELOW: Add validation that user selected a 3rd input
+    validate(
+      need(input$mental_vs_physical != &quot;&quot;, &quot;Be sure to select an response&quot;)
+    )  
+   mental_health_survey %&gt;%
+      filter(
+        work_interfere == input$work_interfere,
+        mental_health_consequence %in% input$mental_health_consequence,
+        mental_vs_physical %in% input$mental_vs_physical
+      ) %&gt;%
+      ggplot(aes(Age)) +
+      geom_histogram()
+  })
+}
+
+ui &lt;- fluidPage(
+  titlePanel(&quot;2014 Mental Health in Tech Survey&quot;),
+  sidebarPanel(
+    sliderTextInput(
+      inputId = &quot;work_interfere&quot;,
+      label = &quot;If you have a mental health condition, do you feel that it interferes with your work?&quot;, 
+      grid = TRUE,
+      force_edges = TRUE,
+      choices = c(&quot;Never&quot;, &quot;Rarely&quot;, &quot;Sometimes&quot;, &quot;Often&quot;)
+    ),
+    checkboxGroupInput(
+      inputId = &quot;mental_health_consequence&quot;,
+      label = &quot;Do you think that discussing a mental health issue with your employer would have negative consequences?&quot;, 
+      choices = c(&quot;Maybe&quot;, &quot;Yes&quot;, &quot;No&quot;),
+      selected = &quot;Maybe&quot;
+    ),
+    pickerInput(
+      inputId = &quot;mental_vs_physical&quot;,
+      label = &quot;Do you feel that your employer takes mental health as seriously as physical health?&quot;, 
+      choices = c(&quot;Don&#39;t Know&quot;, &quot;No&quot;, &quot;Yes&quot;),
+      multiple = TRUE
+    )    
+  ),
+  mainPanel(
+    plotOutput(&quot;age&quot;)  
+  )
+)
+
+shinyApp(ui, server)</code></pre>
+</div>
+<div id="cocinas-en-el-mundo-y-sus-platillos-más-comidos" class="section level3">
+<h3>3. Cocinas en el mundo y sus platillos más comidos</h3>
+<pre class="r"><code>recipies
+ui &lt;- fluidPage(
+  titlePanel(&#39;Explore Cuisines&#39;),
+  sidebarLayout(
+    sidebarPanel(
+      selectInput(&#39;cuisine&#39;, &#39;Select Cuisine&#39;, unique(recipes$cuisine)),
+      sliderInput(&#39;nb_ingredients&#39;, &#39;Select No. of Ingredients&#39;, 5, 100, 20),
+    ),
+    mainPanel(
+      tabsetPanel(
+        # CODE BELOW: Add `d3wordcloudOutput` named `wc_ingredients` in a `tabPanel`
+        tabPanel(&#39;Word Cloud&#39;, d3wordcloud::d3wordcloudOutput(&#39;wc_ingredients&#39;, height = &#39;400&#39;)),
+        tabPanel(&#39;Plot&#39;, plotly::plotlyOutput(&#39;plot_top_ingredients&#39;)),
+        tabPanel(&#39;Table&#39;, DT::DTOutput(&#39;dt_top_ingredients&#39;))
+      )
+    )
+  )
+)
+server &lt;- function(input, output, session){
+  # CODE BELOW: Render an interactive wordcloud of top distinctive ingredients 
+  # and the number of recipes they get used in, using 
+  # `d3wordcloud::renderD3wordcloud`, and assign it to an output named
+  # `wc_ingredients`.
+  output$wc_ingredients &lt;- d3wordcloud::renderD3wordcloud({
+     ingredients_df &lt;- rval_top_ingredients()
+     d3wordcloud(ingredients_df$ingredient, ingredients_df$nb_recipes, tooltip = TRUE)
+  })
+  rval_top_ingredients &lt;- reactive({
+    recipes_enriched %&gt;% 
+      filter(cuisine == input$cuisine) %&gt;% 
+      arrange(desc(tf_idf)) %&gt;% 
+      head(input$nb_ingredients) %&gt;% 
+      mutate(ingredient = forcats::fct_reorder(ingredient, tf_idf))
+  })
+  output$plot_top_ingredients &lt;- plotly::renderPlotly({
+    rval_top_ingredients() %&gt;%
+      ggplot(aes(x = ingredient, y = tf_idf)) +
+      geom_col() +
+      coord_flip()
+  })
+  output$dt_top_ingredients &lt;- DT::renderDT({
+    recipes %&gt;% 
+      filter(cuisine == input$cuisine) %&gt;% 
+      count(ingredient, name = &#39;nb_recipes&#39;) %&gt;% 
+      arrange(desc(nb_recipes)) %&gt;% 
+      head(input$nb_ingredients)
+  })
+}
+shinyApp(ui = ui, server= server)</code></pre>
+</div>
+<div id="disparos-en-eu" class="section level3">
+<h3>4. Disparos en EU</h3>
+<pre class="r"><code>ui &lt;- bootstrapPage(
+  theme = shinythemes::shinytheme(&#39;simplex&#39;),
+  leaflet::leafletOutput(&#39;map&#39;, width = &#39;100%&#39;, height = &#39;100%&#39;),
+  absolutePanel(top = 10, right = 10, id = &#39;controls&#39;,
+    sliderInput(&#39;nb_fatalities&#39;, &#39;Minimum Fatalities&#39;, 1, 40, 10),
+    dateRangeInput(
+      &#39;date_range&#39;, &#39;Select Date&#39;, &quot;2010-01-01&quot;, &quot;2019-12-01&quot;
+    ),
+    # CODE BELOW: Add an action button named show_about
+    actionButton(&quot;show_about&quot;, &quot;About&quot;)
+  ),
+  tags$style(type = &quot;text/css&quot;, &quot;
+    html, body {width:100%;height:100%}     
+    #controls{background-color:white;padding:20px;}
+  &quot;)
+)
+server &lt;- function(input, output, session) {
+  # CODE BELOW: Use observeEvent to display a modal dialog
+  # with the help text stored in text_about.
+observeEvent(input$show_about, {
+    showModal(modalDialog(&quot;This data was compiled by Mother Jones, nonprofit founded in 1976. Originally covering cases from 1982-2012, this database has since been expanded numerous times to remain current.&quot;, title = &#39;About&#39;))
+})
+  
+  
+  output$map &lt;- leaflet::renderLeaflet({
+    mass_shootings %&gt;% 
+      filter(
+        date &gt; input$date_range[1],
+        date &lt; input$date_range[2],
+        fatalities &gt;= input$nb_fatalities
+      ) %&gt;% 
+      leaflet() %&gt;% 
+      setView( -98.58, 39.82, zoom = 5) %&gt;% 
+      addTiles() %&gt;% 
+      addCircleMarkers(
+        popup = ~ summary, radius = ~ sqrt(fatalities)*3,
+        fillColor = &#39;red&#39;, color = &#39;red&#39;, weight = 1
+      )
+  })
+}
+
+shinyApp(ui, server)</code></pre>
+</div>
+<div id="añadir-mensajes-de-error." class="section level2">
+<h2>Añadir mensajes de error.</h2>
+<p><img src="shiny9.png" /></p>
+<div id="cómo-conocer-todos-los-posibles-inputs" class="section level3">
+<h3>¿Cómo conocer todos los posibles inputs?</h3>
+<p>Con la función<code>shinyWidgetsGallery()</code> que permite ver todos los inputs posibles así como el código necesario para su implementación.</p>
+</div>
+</div>
+</div>
+</div>
+
+   
+   
+              </div>
+  </div>
+  </div>
+  </div>
+   
+      
+
+  <script>
+    $(document).ready(function () {
+
+		// add bootstrap table styles to pandoc tables
+	$('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+		
+ 	 	$('#content img').addClass("image-thumb");
+		
+		$('#content img:not(.no-lightbox)').addClass("image-lb");
+	$('#content').magnificPopup({
+	    type:'image',
+	    closeOnContentClick: false,
+	    closeBtnInside: false,
+	    delegate: '.image-lb',
+	    gallery: {enabled: false },
+	    image: {
+	        verticalFit: true,
+		titleSrc: 'alt'
+	    }
+ 	});
+ 	    });
+  </script>
+
+
+
+    <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+	var script = document.createElement("script");
+	script.type = "text/javascript";
+	script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+	document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+  
+</body>
+</html>

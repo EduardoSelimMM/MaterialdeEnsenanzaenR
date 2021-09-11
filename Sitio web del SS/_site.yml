@@ -1,0 +1,59 @@
+name: "servicio_social"
+navbar:
+  title: "Material de Consulta"
+  left:
+    - text: ""
+      href: index.html
+    - text: "Uso del sitio"
+      href: como_funciona.html
+  right:
+    - text: "Documentación"
+      href: about.html
+      menu:
+      - text: R Markdown
+        href: R-Markdown.html
+      - text: Xaringan y Flipbookr
+        href: Xaringan-y-Flipbookr.html
+      - text: Tutorial Learnr
+        href: https://carlos-arguello.shinyapps.io/Tutorial_Learnr/
+      - text: Introducción a R
+        href: https://carlos-arguello.shinyapps.io/Introduction_to_R/
+    - text: "Git y más"
+      href: about.html
+      menu:
+      - text: Git y GitHub
+        href: Tutorial-de-Git-y-GitHub.html
+      - text: GitLab y GitKraken
+        href: git_lab_kraken.html
+    - text: "Shiny"
+      href: about.html
+      menu:
+      - text: Shiny App
+        href: Intro-Shiny.html
+      - text: Shiy Dashboard
+        href: Shiny-Dashboards.html
+      - text: Flexdashboard
+        href: Flexdashboards.html
+    - text: "Ejemplos"
+      href: about.html
+      menu:
+      - text: Rmarkdown
+        href: Ejemplo-R-Markdown.html
+      - text: Flipbookr
+        href: primer_flipbookr.html
+      - text: Flexdashboard
+        href: primer_flexdashboard.html
+    - text: "Material académico"
+      href: about.html
+      menu:
+      - text: Ciencia de Datos
+        href: https://ciencia-de-datos.netlify.app/
+      - text: Teoría del riesgo
+        href: https://teoria-del-riesgo.netlify.app/
+output:
+  rmdformats::downcute:
+    self_contained: true
+    thumbnails: true
+    lightbox: true
+    gallery: false
+    highlight: tango
